@@ -35,4 +35,16 @@ return [
 		'secret' => '',
 	],
 
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => 'http://localhost:8000/callback',
+    ],
+
+    'eveonline' => [
+        'client_id' => env('EVE_CLIENT_ID'),
+        'client_secret' => env('EVE_CLIENT_SECRET'),
+        'redirect' => 'http://localhost:8000/callback',
+    ],
+
 ];

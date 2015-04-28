@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => 'http://localhost:8000',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -145,6 +145,8 @@ return [
 		'JamylBot\Providers\EventServiceProvider',
 		'JamylBot\Providers\RouteServiceProvider',
 
+        'Laravel\Socialite\SocialiteServiceProvider',
+
 	],
 
 	/*
@@ -192,6 +194,8 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+
+        'Socialize' => 'Laravel\Socialite\Facades\Socialite',
 
 	],
 

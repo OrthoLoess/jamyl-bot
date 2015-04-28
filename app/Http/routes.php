@@ -19,3 +19,7 @@ Route::controllers([
 	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('login', 'AuthController@redirectToProvider');
+
+Route::get('callback', 'AuthController@handleProviderCallback');
