@@ -146,6 +146,7 @@ return [
 		'JamylBot\Providers\RouteServiceProvider',
 
         'Laravel\Socialite\SocialiteServiceProvider',
+        'Laracasts\Flash\FlashServiceProvider',
 
 	],
 
@@ -196,6 +197,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
 
         'Socialize' => 'Laravel\Socialite\Facades\Socialite',
+        'Flash'     => 'Laracasts\Flash\Flash',
 
 	],
 
