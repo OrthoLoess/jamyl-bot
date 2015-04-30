@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
@@ -23,3 +25,13 @@ Route::controllers([
 Route::get('login', 'AuthController@redirectToProvider');
 
 Route::get('callback', 'AuthController@handleProviderCallback');
+
+Route::get('test', function (){
+    $ping = new \JamylBot\Pingbot\Pingbot();
+    return $ping->processPingCommand([]);
+});
+
+Route::post('sendping', function (Request $request){
+    $ping = new \JamylBot\Pingbot\Pingbot();
+    return $ping->processPingCommand($request->all());
+});
