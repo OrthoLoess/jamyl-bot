@@ -54,9 +54,23 @@ class Pingbot {
         if ($this->authenticateSource($requestVars))
         {
             $messageArray = $this->parsePingType($requestVars['text']);
+            if ($messageArray['ping-type'] == 'help')
+            {
+                return $this->makeHelpText();
+            }
             $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name']);
         }
         return $this->returnMessage;
+    }
+
+    protected function makeHelpText()
+    {
+        return "The ping bot is now multi-function!\n"
+            ."Usage: /ping <type> [message]\n"
+            ."Available types:\n"
+            ."fc - Sends ping to p_fc_pings.\n"
+            ."titan - Sends ping to the titan channel. Use this to request a bridge.\n"
+            ."capfc - Sends ping to cap_fcs channel. Use to request cap support.";
     }
 
     protected function makePayload($type, $message, $sender)
@@ -117,6 +131,14 @@ class Pingbot {
     protected function parsePingType($message)
     {
         $messageArray = explode(" ", $message, 2);
+
+        if (!isset($messageArray[1]))
+        {
+            return [
+                'valid'     => false,
+                'ping-type' => $messageArray[0]
+            ];
+        }
 
         return [
             'valid'         => $this->isValidPingType($messageArray[0]),

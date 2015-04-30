@@ -35,7 +35,7 @@ return [
             'destination'   => 'p_fc_pings',
             'title'         => 'FC Group Ping',
             'pre-text'      => "A member of the FC team has sent the following message:\n",
-            'color'         => 'danger',
+            'color'         => 'warning',
             'announce'      => false
         ],
         'titan' => [
@@ -49,7 +49,14 @@ return [
             'destination'   => 'api_test',
             'title'         => ':bridge: Titan Ping',
             'pre-text'      => "A member of the FC team has sent the following message:\n",
-            'color'         => 'danger',
+            'color'         => 'good',
+            'announce'      => false
+        ],
+        'capfc' => [
+            'destination'   => 'cap_fcs',
+            'title'         => 'Capital Support Ping',
+            'pre-text'      => "One of the FCs seems to foolishly think caps are a good idea today:\n",
+            'color'         => '#439FE0',
             'announce'      => false
         ],
     ],
