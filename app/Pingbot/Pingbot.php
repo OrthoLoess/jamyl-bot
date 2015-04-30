@@ -15,7 +15,7 @@ class Pingbot {
 
     protected $postUrl;
     protected $allowedChannels;
-    protected $returnMessage = 'Unknown Error';
+    protected $returnMessage = 'Unknown Error. Use /ping help for more info.';
 
     public function __construct()
     {
@@ -136,7 +136,8 @@ class Pingbot {
         {
             return [
                 'valid'     => false,
-                'ping-type' => $messageArray[0]
+                'ping-type' => $messageArray[0],
+                'message'   => ''
             ];
         }
 
@@ -152,7 +153,7 @@ class Pingbot {
         if (array_key_exists($type, config('pingbot.ping-bots'))){
             return true;
         }
-        $this->returnMessage = 'First parameter must be ping type: fc or titan';
+        $this->returnMessage = 'First parameter must be ping type. Use /ping help for more info';
     }
 
 }
