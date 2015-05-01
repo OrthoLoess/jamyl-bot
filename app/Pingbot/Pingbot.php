@@ -8,21 +8,49 @@
 
 namespace JamylBot\Pingbot;
 
-
 use GuzzleHttp\Client;
 
+/**
+ * Class Pingbot
+ * @package JamylBot\Pingbot
+ */
 class Pingbot {
 
+    /**
+     * @var string
+     */
     protected $postUrl;
+    /**
+     * @var array
+     */
     protected $allowedChannels;
+    /**
+     * The text to be returned as the output of the slash command. If this default survives to be sent, then something
+     * has gone wrong which is not handled well.
+     *
+     * @var string
+     */
     protected $returnMessage = 'Unknown Error. Use /ping help for more info.';
 
+    /**
+     * Load values from config.
+     */
     public function __construct()
     {
         $this->postUrl = config('pingbot.post-url');
         $this->allowedChannels = config('pingbot.ping-allowed-channels');
     }
 
+    /**
+     * Main function for building up a ping and sending it off. First checks if the type is valid.
+     * Called after the input from the slash command has been parsed, or can be called by external scripts.
+     *
+     * @param String $type
+     * @param String $message
+     * @param String $sender
+     *
+     * @return bool
+     */
     public function ping($type, $message, $sender)
     {
         if (!$this->isValidPingType($type))
@@ -42,6 +70,14 @@ class Pingbot {
         return false;
     }
 
+    /**
+     * Takes the generated payload array and transmits it to slack. All the information needed to show the
+     * message properly is in the payload array
+     *
+     * @param Array $payload
+     *
+     * @return bool
+     */
     protected function sendMessageToServer($payload)
     {
         $client = new Client();
@@ -49,6 +85,14 @@ class Pingbot {
         return true;
     }
 
+    /**
+     * Primary entry point for slash commands.
+     *
+     *
+     * @param Array $requestVars
+     *
+     * @return string
+     */
     public function processPingCommand($requestVars)
     {
         if ($this->authenticateSource($requestVars))
@@ -63,6 +107,14 @@ class Pingbot {
         return $this->returnMessage;
     }
 
+    /**
+     * Very basic help functionality. Triggered by sending /ping help.
+     * Only outputs to the person who triggered teh command.
+     *
+     * Note: Will override a pingbot named "help"
+     *
+     * @return string
+     */
     protected function makeHelpText()
     {
         return "The ping bot is now multi-function!\n"
@@ -73,6 +125,16 @@ class Pingbot {
             ."capfc - Sends ping to cap_fcs channel. Use to request cap support.";
     }
 
+    /**
+     * Use values from the config file to generate teh payload of teh message to be sent to slack.
+     * Calls makeAttachment() to offload some of the work, mostly just to make it a bit cleaner.
+     *
+     * @param String $type
+     * @param String $message
+     * @param String $sender
+     *
+     * @return array
+     */
     protected function makePayload($type, $message, $sender)
     {
         $pingSettings = config('pingbot.ping-bots.'.$type);
@@ -85,6 +147,14 @@ class Pingbot {
         ];
     }
 
+    /**
+     * Generate the attachment part of the slack message
+     *
+     * @param String $message
+     * @param Array $pingSettings
+     *
+     * @return array
+     */
     protected function makeAttachment($message, $pingSettings)
     {
         return [[
@@ -95,6 +165,16 @@ class Pingbot {
         ]];
     }
 
+    /**
+     * For pings which also announce that the ping was sent in the sending channel, generates that message payload.
+     *
+     * The channel to announce to is not configurable on a per-pingbot basis.
+     *
+     * @param String $type
+     * @param String $sender
+     *
+     * @return array
+     */
     protected function announcementPayload($type, $sender)
     {
         return [
@@ -105,6 +185,14 @@ class Pingbot {
         ];
     }
 
+    /**
+     * Basic authentication of the source of the ping request. The token is sent by slack, set in the admin settings.
+     * The channel ID is used to restrict the use fo teh /ping command to fc's by stopping it's use from other channels.
+     *
+     * @param Array $requestVars
+     *
+     * @return bool
+     */
     protected function authenticateSource($requestVars)
     {
         if ( !( isset($requestVars['channel_id']) && isset($requestVars['token']) ) )
@@ -128,6 +216,16 @@ class Pingbot {
         return true;
     }
 
+    /**
+     * Splits the first word from the incoming message string and checks if it is the name of a configured pingbot.
+     * Will gracefully handle missing information:
+     *  - If no message is sent at all, it will simply not match a ping type and the error text will reflect that.
+     *  - If a valid ping type is given with no ensuing message, a ping will be sent with no custom message.
+     *
+     * @param String $message
+     *
+     * @return array
+     */
     protected function parsePingType($message)
     {
         $messageArray = explode(" ", $message, 2);
@@ -148,12 +246,20 @@ class Pingbot {
         ];
     }
 
+    /**
+     * Use given $type string to compare against the ping types in the config.
+     *
+     * @param String $type
+     *
+     * @return bool
+     */
     protected function isValidPingType($type)
     {
         if (array_key_exists($type, config('pingbot.ping-bots'))){
             return true;
         }
         $this->returnMessage = 'First parameter must be ping type. Use /ping help for more info';
+        return false;
     }
 
 }
