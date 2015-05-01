@@ -27,7 +27,16 @@ Route::get('login', 'AuthController@redirectToProvider');
 
 Route::get('callback', 'AuthController@handleProviderCallback');
 
-
 Route::post('sendping', function (Request $request, Pingbot $pingbot){
     return $pingbot->processPingCommand($request->all());
+});
+
+Route::get('test', function (\JamylBot\Userbot\ApiMonkey $api){
+    //return $api->checkCharacter('1124364023,');90274790
+
+    $api->addToAffiliationQueue('1124364023');
+    $api->addToAffiliationQueue('902747f905');
+
+    $api->sendQueuedCall();
+
 });
