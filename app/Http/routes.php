@@ -40,3 +40,7 @@ Route::get('test', function (\JamylBot\Userbot\ApiMonkey $api){
     $api->sendQueuedCall();
 
 });
+
+Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack){
+    return $slack->getUsers();
+});
