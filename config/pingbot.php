@@ -34,7 +34,7 @@ return [
         'fc' => [
             'destination'   => 'p_fc_pings',
             'title'         => 'FC Group Ping',
-            'pre-text'      => "A member of the FC team has sent the following message:\n",
+            'pre-text'      => "",
             'color'         => 'warning',
             'announce'      => false
         ],

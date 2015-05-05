@@ -38,7 +38,8 @@ class Userbot {
         }
     }
 
-    protected function checkAccess(User $user) {
+    protected function checkAccess(User $user)
+    {
         //
     }
 

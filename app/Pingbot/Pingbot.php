@@ -8,7 +8,7 @@
 
 namespace JamylBot\Pingbot;
 
-use GuzzleHttp\Client;
+use JamylBot\Userbot\SlackMonkey;
 
 /**
  * Class Pingbot
@@ -33,12 +33,20 @@ class Pingbot {
     protected $returnMessage = 'Unknown Error. Use /ping help for more info.';
 
     /**
-     * Load values from config.
+     * @var SlackMonkey
      */
-    public function __construct()
+    protected $slack;
+
+    /**
+     * Load values from config.
+     *
+     * @param SlackMonkey $slack
+     */
+    public function __construct(SlackMonkey $slack)
     {
         $this->postUrl = config('pingbot.post-url');
         $this->allowedChannels = config('pingbot.ping-allowed-channels');
+        $this->slack = $slack;
     }
 
     /**
@@ -58,31 +66,16 @@ class Pingbot {
             return false;
         }
         $payload = $this->makePayload($type, $message, $sender);
-        if ($this->sendMessageToServer($payload))
+        if ($this->slack->sendMessageToServer($payload))
         {
             $this->returnMessage = 'Ping sent';
             if (config('pingbot.ping-bots.'.$type.'.announce'))
             {
-                $this->sendMessageToServer($this->announcementPayload($type, $sender));
+                $this->slack->sendMessageToServer($this->announcementPayload($type, $sender));
             }
             return true;
         }
         return false;
-    }
-
-    /**
-     * Takes the generated payload array and transmits it to slack. All the information needed to show the
-     * message properly is in the payload array
-     *
-     * @param Array $payload
-     *
-     * @return bool
-     */
-    protected function sendMessageToServer($payload)
-    {
-        $client = new Client();
-        $client->get(config('pingbot.post-url'), ['json' => $payload]);
-        return true;
     }
 
     /**

@@ -10,6 +10,7 @@ namespace JamylBot\Userbot;
 
 
 use GuzzleHttp\Client;
+use JamylBot\Exceptions\SlackException;
 
 /**
  * Class SlackMonkey
@@ -45,23 +46,22 @@ class SlackMonkey {
      */
     public function sendMessageToServer($payload)
     {
-
-        $this->guzzle->get(config('pingbot.post-url'), ['json' => $payload]);
+        $client = new Client();  // This function does not use the web API, so needs different defaults
+        $client->get(config('pingbot.post-url'), ['json' => $payload]);
         return true;
     }
 
     /**
      * Get list of all users.
-     *
      * @return Array
+     * @throws SlackException
      */
     public function getUsers()
     {
         $response = $this->guzzle->get('users.list');
         if ($response->json()['ok'])
             return $response->json()['members'];
-        //throw exception
-        return false;
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -69,13 +69,15 @@ class SlackMonkey {
      *
      * @param String $channel
      *
-     * @return bool
+     * @return Array
+     * @throws SlackException
      */
-    protected function getUsersForChannel($channel)
+    public function getUsersForChannel($channel)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("channels.info?channel=$channel");
+        if ($response->json()['ok'])
+            return $response->json()['channel']['members'];
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -83,13 +85,15 @@ class SlackMonkey {
      *
      * @param String $group
      *
-     * @return bool
+     * @return Array
+     * @throws SlackException
      */
-    protected function getUsersForGroup($group)
+    public function getUsersForGroup($group)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("groups.info?channel=$group");
+        if ($response->json()['ok'])
+            return $response->json()['group']['members'];
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -99,12 +103,14 @@ class SlackMonkey {
      * @param String $channel
      *
      * @return bool
+     * @throws SlackException
      */
-    protected function addToChannel($user, $channel)
+    public function addToChannel($user, $channel)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("channels.invite?user=$user&channel=$channel");
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -114,12 +120,14 @@ class SlackMonkey {
      * @param String $group
      *
      * @return bool
+     * @throws SlackException
      */
-    protected function addToGroup($user, $group)
+    public function addToGroup($user, $group)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("groups.invite?user=$user&channel=$group");
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -129,12 +137,14 @@ class SlackMonkey {
      * @param String $channel
      *
      * @return bool
+     * @throws SlackException
      */
-    protected function kickFromChannel($user, $channel)
+    public function kickFromChannel($user, $channel)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("channels.kick?user=$user&channel=$channel");
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
     }
 
     /**
@@ -144,12 +154,14 @@ class SlackMonkey {
      * @param String $group
      *
      * @return bool
+     * @throws SlackException
      */
-    protected function kickFromGroup($user, $group)
+    public function kickFromGroup($user, $group)
     {
-        //
-
-        return true;
+        $response = $this->guzzle->get("groups.kick?user=$user&channel=$group");
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
     }
 
 }
