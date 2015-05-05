@@ -32,6 +32,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    public function groups()
+    {
+        $this->belongsToMany('JamylBot\Group');
+    }
 
+//    public function channels()
+//    {
+//        $this->hasManyThrough('JamylBot\Channel', 'JamylBot\Group');
+//    }
 
 }
