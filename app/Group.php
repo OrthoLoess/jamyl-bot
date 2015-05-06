@@ -11,7 +11,7 @@ class Group extends Model {
         $this->belongsToMany('JamylBot\User');
     }
 
-    public function slackGroups()
+    public function channels()
     {
         $this->belongsToMany('JamylBot\Channel');
     }

@@ -42,5 +42,9 @@ Route::get('test', function (\JamylBot\Userbot\ApiMonkey $api){
 });
 
 Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack){
-    return $slack->getUsersForGroup('G04G7KMFM');
+    //return $slack->getUsers();//'G04G7KMFM');
+    //$slack->setActive('U04FM6218');
+    //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
+
+    return 'done';
 });

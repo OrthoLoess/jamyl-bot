@@ -164,4 +164,65 @@ class SlackMonkey {
         throw new SlackException($response->json()['error']);
     }
 
+    /**
+     * Set the user's account to inactive. Can no longer log in or access anything.
+     *
+     * Undocumented API
+     *
+     * @param string $user
+     *
+     * @return bool
+     * @throws SlackException
+     */
+    public function setInactive($user)
+    {
+        $response = $this->guzzle->post("users.admin.setInactive?user=$user&token=".config('slack.admin-token'));
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
+    }
+
+    /**
+     * Reactivate the user's account. Can be called on an already active account without erroring.
+     *
+     * Undocumented API
+     *
+     * @param string $user
+     *
+     * @return bool
+     * @throws SlackException
+     */
+    public function setActive($user)
+    {
+        $response = $this->guzzle->post("users.admin.setRegular?user=$user&token=".config('slack.admin-token'));
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
+    }
+
+    /**
+     * Instruct slack to send an invite to the given email address. $channels is an array of channel ids the user
+     * will auto-join.
+     *
+     * @param string $email
+     * @param string $name
+     * @param array $extraChannels
+     *
+     * @return bool
+     * @throws SlackException
+     */
+    public function sendInvite($email, $name, $extraChannels = [])
+    {
+        /** @var array $channels */
+        $channels = array_merge(config('slack.auto-join-channels'), $extraChannels);
+        $response = $this->guzzle->post("users.admin.invite".
+            "?email=".$email.
+            "&first_name=".$name.
+            "&token=".config('slack.admin-token').
+            "&channels=".implode(',', $channels)
+        );
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
+    }
 }

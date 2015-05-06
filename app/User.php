@@ -37,6 +37,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->belongsToMany('JamylBot\Group');
     }
 
+    public function updateAffiliation($charInfo)
+    {
+        $hasChanged = false;
+        if ($this->corpId != $charInfo['corporationID']) {
+            $this->corpId = $charInfo['corporationID'];
+            $this->corpName = $charInfo['corporationName'];
+            $hasChanged = true;
+        }
+        if ($this->allianceId != $charInfo['allianceID']) {
+            $this->allianceId = $charInfo['allianceID'];
+            $this->allianceName = $charInfo['allianceName'];
+            $hasChanged = true;
+        }
+        if ($hasChanged) {
+            $this->updateStatus();
+        }
+    }
+
+    public function updateStatus()
+    {
+        // decide if red/blue/etc
+    }
+
 //    public function channels()
 //    {
 //        $this->hasManyThrough('JamylBot\Channel', 'JamylBot\Group');
