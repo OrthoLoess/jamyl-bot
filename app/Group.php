@@ -16,4 +16,22 @@ class Group extends Model {
         $this->belongsToMany('JamylBot\Channel');
     }
 
+    public function getOwners()
+    {
+        return explode(',', $this->owners);
+    }
+
+    public function addOwner($newOwner)
+    {
+        $owners = $this->getOwners();
+        $owners[] = $newOwner;
+        $this->owners = implode(array_unique($owners));
+        $this->save();
+    }
+
+    public function isOwner($owner)
+    {
+        return in_array($owner, $this->getOwners());
+    }
+
 }
