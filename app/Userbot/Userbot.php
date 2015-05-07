@@ -12,40 +12,39 @@ use JamylBot\User;
 
 class Userbot {
 
-    /**
-     * @param $charId
-     *
-     * @return User
-     */
-    public function findUserById($charId)
+    public function performUpdates()
     {
-        return User::where('char_id', $charId)->firstOrFail();
+        $apiMonkey = new ApiMonkey($this);
+        do {
+            $charIds = User::listNeedUpdateIds(50);
+            foreach ($charIds as $char) {
+                $apiMonkey->addToAffiliationQueue($char);
+            }
+        } while (count($charIds));
+        $apiMonkey->fireQueue(true);
     }
 
-    public function findUserBySlack($slackId)
+    public function updateAffiliations($phealResults)
     {
-        return User::where('slack_id', $slackId)->firstOrFail();
-    }
-
-    public function updateAffiliation($phealResult)
-    {
-        $user = $this->findUserById($phealResult['characterID']);
-        if ($user->corpId != $phealResult['corporationID'] || $user->allianceId != $phealResult['allianceID']){
-            $user->corpId = $phealResult['corporationID'];
-            $user->corpId = $phealResult['allianceID'];
-            $user->save();
-            $this->checkAccess($user);
+        foreach ($phealResults->characters->toArray() as $phealResult) {
+            $phealResult['cachedUntil'] = $phealResults->cachedUntil;
+            $user = User::findByChar($phealResult['characterID']);
+            $user->updateAffiliation($phealResult);
         }
-    }
-
-    protected function checkAccess(User $user)
-    {
-        //
     }
 
     public function markAsErroring($charId, $error)
     {
-        //
+        $user = User::findByChar($charId);
+        $user->error = $error;
+        $user->save();
+    }
+
+    public function clearError($charId)
+    {
+        $user = User::findByChar($charId);
+        $user->error = null;
+        $user->save();
     }
 
     protected function getRandomBytes($nbBytes = 32)

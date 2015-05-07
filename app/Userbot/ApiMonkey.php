@@ -19,69 +19,74 @@ use Pheal\Core\Config as PhealConfig;
  */
 class ApiMonkey {
 
+    /**
+     * @var Pheal
+     */
     protected $pheal;
+    /**
+     * @var Userbot
+     */
     protected $userbot;
+    /**
+     * @var array
+     */
     protected $affiliationQueue=[];
+    /**
+     * @var int
+     */
     protected $maxQueueSize = 50;
 
     /**
      * @param Pheal $pheal
      * @param Userbot $userbot
      */
-    function __construct(Pheal $pheal, Userbot $userbot)
+    function __construct(Userbot $userbot)
     {
-        $this->pheal = $pheal;
+        $this->pheal = new Pheal();
         $this->userbot = $userbot;
         PhealConfig::getInstance()->cache = new \Pheal\Cache\FileStorage(storage_path().'/app/phealCache/');
         PhealConfig::getinstance()->access = new \Pheal\Access\StaticCheck();
     }
 
     /**
-     * Take characterID, look up affiliation in API and check against standings.
-     *
-     * @param $char
-     *
-     * @return array
+     * @param int $char
+     * @param bool $fireNow
      */
-    public function checkCharacter($char)
+    public function addToAffiliationQueue($char, $fireNow = false)
     {
-        return $this->affiliation($char);
+        $this->affiliationQueue[] = $char;
+        $this->fireQueue($fireNow);
     }
 
     /**
-     * Pass $charID to affiliation endpoint, return corp and alliance info.
-     *
-     * @param $char
-     *
-     * @return array
+     * @return bool
      */
-    protected function affiliation($char)
-    {
-        $charInfo = $this->pheal->eveScope->CharacterAffiliation(['ids' => $char]);
-
-        dd($charInfo->characters->toArray());
-        return $charInfo;
-    }
-
-    public function addToAffiliationQueue($char)
-    {
-        $this->affiliationQueue[] = $char;
-    }
-
     protected function checkQueueLength()
     {
         return (count($this->affiliationQueue) >= $this->maxQueueSize);
     }
 
-    protected function fireQueue($force = false)
+    /**
+     * @param bool $force
+     *
+     * @return bool
+     * @throws APIException
+     * @throws \Exception
+     */
+    public function fireQueue($force = false)
     {
         if ($force || $this->checkQueueLength())
         {
+            $this->sendQueuedCall();
             return true;
         }
         return false;
     }
 
+    /**
+     * @throws APIException
+     * @throws \Exception
+     */
     public function sendQueuedCall()
     {
         $charInfo = null;
@@ -89,7 +94,7 @@ class ApiMonkey {
         {
             try {
                 $charInfo = $this->pheal->eveScope->CharacterAffiliation(['ids' => implode(',', $this->affiliationQueue)]);
-                $this->handleMultipleAffiliations($charInfo->characters->toArray());
+                $this->userbot->updateAffiliations($charInfo);
                 $this->affiliationQueue = [];
             } catch (APIException $e) {
                 if ($e->code == 126) { // Invalid input found in ID list
@@ -99,7 +104,7 @@ class ApiMonkey {
                             $this->sendSingleAffiliation($charId);
                         } catch (APIException $ee) {
                             if ($ee->code == 126) {
-                                $this->userbot->markAsErroring($charId, $ee);
+                                $this->userbot->markAsErroring($charId, $ee->code);
                             } else {
                                 throw $ee;
                             }
@@ -113,17 +118,12 @@ class ApiMonkey {
         }
     }
 
+    /**
+     * @param int $charId
+     */
     protected function sendSingleAffiliation($charId)
     {
         $result = $this->pheal->eveScope->CharacterAffiliation(['ids' => $charId]);
-
-        $this->userbot->updateAffiliation($result->characters->toArray()[0]);
-    }
-
-    protected function handleMultipleAffiliations($resultArray)
-    {
-        foreach ($resultArray as $result) {
-            $this->userbot->updateAffiliation($result);
-        }
+        $this->userbot->updateAffiliations($result);
     }
 }

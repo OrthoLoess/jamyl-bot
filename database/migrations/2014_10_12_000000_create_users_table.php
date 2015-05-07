@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration {
             $table->string('corp_name');
             $table->string('alliance_id')->nullable();
             $table->string('alliance_name')->nullable();
+            $table->boolean('admin')->default(false);
+            $table->boolean('super_admin')->default(false);
 			$table->rememberToken();
 			$table->timestamps();
 		});
