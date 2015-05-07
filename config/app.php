@@ -198,7 +198,6 @@ return [
 
         'Socialize' => 'Laravel\Socialite\Facades\Socialite',
         'Flash'     => 'Laracasts\Flash\Flash',
-
 	],
 
 ];

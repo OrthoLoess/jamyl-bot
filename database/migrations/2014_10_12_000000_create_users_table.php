@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration {
             $table->string('status')->nullable();
             $table->integer('error')->nullable();
             $table->dateTime('next_check')->nullable();
-            $table->string('corp_id');
-            $table->string('corp_name');
+            $table->string('corp_id')->nullable();
+            $table->string('corp_name')->nullable();
             $table->string('alliance_id')->nullable();
             $table->string('alliance_name')->nullable();
             $table->boolean('admin')->default(false);

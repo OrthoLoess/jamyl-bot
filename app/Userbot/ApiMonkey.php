@@ -121,7 +121,7 @@ class ApiMonkey {
     /**
      * @param int $charId
      */
-    protected function sendSingleAffiliation($charId)
+    public function sendSingleAffiliation($charId)
     {
         $result = $this->pheal->eveScope->CharacterAffiliation(['ids' => $charId]);
         $this->userbot->updateAffiliations($result);

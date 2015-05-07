@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use JamylBot\Userbot\Userbot;
 
 /**
  * Class User
@@ -56,20 +57,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function updateAffiliation($charInfo)
     {
         $hasChanged = false;
-        if ($this->corpId != $charInfo['corporationID']) {
-            $this->corpId = $charInfo['corporationID'];
-            $this->corpName = $charInfo['corporationName'];
+        if ($this->corp_id != $charInfo['corporationID']) {
+            $this->corp_id = $charInfo['corporationID'];
+            $this->corp_name = $charInfo['corporationName'];
             $hasChanged = true;
         }
-        if ($this->allianceId != $charInfo['allianceID']) {
-            $this->allianceId = $charInfo['allianceID'];
-            $this->allianceName = $charInfo['allianceName'];
+        if ($this->alliance_id != $charInfo['allianceID']) {
+            $this->alliance_id = $charInfo['allianceID'];
+            $this->alliance_name = $charInfo['allianceName'];
             $hasChanged = true;
         }
         if ($hasChanged) {
             $this->updateStatus();
         }
-        $this->nextCheck = $charInfo['cachedUntil'];
+        $this->next_check = $charInfo['cachedUntil'];
         $this->save();
     }
 
@@ -78,19 +79,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function updateStatus()
     {
-        if (in_array($this->allianceId, config('standings.holders.alliances'))) {
+        if (in_array($this->alliance_id, config('standings.holders.alliances'))) {
             $this->status = 'holder';
             return true;
         }
-        if (in_array($this->allianceId, config('standings.blues.alliances')) || in_array($this->corpId, config('standings.blues.corporations'))) {
+        if (in_array($this->alliance_id, config('standings.blues.alliances')) || in_array($this->corp_id, config('standings.blues.corporations'))) {
             $this->status = 'blue';
             return true;
         }
-        if (in_array($this->allianceId, config('standings.light-blues.alliances')) || in_array($this->corpId, config('standings.light-blues.corporations'))) {
+        if (in_array($this->alliance_id, config('standings.light-blues.alliances')) || in_array($this->corp_id, config('standings.light-blues.corporations'))) {
             $this->status = 'light-blue';
             return true;
         }
-        if (in_array($this->allianceId, config('standings.reds.alliances')) || in_array($this->corpId, config('standings.reds.corporations'))) {
+        if (in_array($this->alliance_id, config('standings.reds.alliances')) || in_array($this->corp_id, config('standings.reds.corporations'))) {
             $this->status = 'red';
             return true;
         }
@@ -100,7 +101,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function needsUpdate()
     {
-        return $this->nextCheck->lte(Carbon::now());
+        return $this->next_check->lte(Carbon::now());
     }
 
     public static function updateAll()
@@ -133,12 +134,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $users = [];
         foreach ($allUsers as $user) {
             if ($user->needsUpdate()) {
-                $users[] = $user->charId;
+                $users[] = $user->char_id;
                 if (count($users) >= $limit)
                     return $users;
             }
         }
         return $users;
+    }
+
+    public static function createAndFill($charArray)
+    {
+        $user = User::create($charArray);
+        $userbot = new Userbot();
+        $userbot->updateSingle($charArray['char_id']);
+        return $user;
     }
 
 }

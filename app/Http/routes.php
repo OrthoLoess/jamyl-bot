@@ -18,26 +18,27 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+Route::get('login', ['middleware' => 'guest', 'uses' => 'AuthController@redirectToProvider']);
 
-Route::get('login', 'AuthController@redirectToProvider');
+Route::get('auth/logout', function() {
+    Auth::logout();
+    return redirect('/');
+});
 
-Route::get('callback', 'AuthController@handleProviderCallback');
+Route::get('callback', ['middleware' => 'guest', 'uses' => 'AuthController@handleProviderCallback']);
 
 Route::post('sendping', function (Request $request, Pingbot $pingbot){
     return $pingbot->processPingCommand($request->all());
 });
 
-Route::get('test', function (\JamylBot\Userbot\ApiMonkey $api){
+Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
     //return $api->checkCharacter('1124364023,');90274790
 
-    $api->addToAffiliationQueue('1124364023');
-    $api->addToAffiliationQueue('902747f905');
-
-    $api->sendQueuedCall();
+    //dd(JamylBot\User::listNeedUpdateIds(10));
+    //$api->addToAffiliationQueue('1124364023', true);
+    //$api->addToAffiliationQueue('902747f905');
+    $bot->performUpdates();
+    //$api->sendQueuedCall();
 
 });
 
