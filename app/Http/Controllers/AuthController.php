@@ -43,6 +43,7 @@ class AuthController extends Controller {
                 'char_id'   => $char->id,
                 'char_name' => $char->name,
                 'password'  => Userbot::generatePassword(16),
+                'next_check'=> \Carbon\Carbon::now('UTC'),
             ]);
         }
         Auth::login($user, true);

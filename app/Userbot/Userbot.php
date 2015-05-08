@@ -8,7 +8,7 @@
 
 namespace JamylBot\Userbot;
 
-use JamylBot\Exceptions\SlackException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use JamylBot\User;
 
 class Userbot {
@@ -76,10 +76,10 @@ class Userbot {
         $userData = $this->slackMonkey->getUserData($requestVars['user_id']);
         try {
             $user = User::findByEmail($userData['profile']['email']);
-        } catch ( SlackException $e ) {
+        } catch ( ModelNotFoundException $e ) {
             try {
                 $user = User::findByChar($requestVars['text']);
-            } catch ( SlackException $ee ) {
+            } catch ( ModelNotFoundException $ee ) {
                 return "Character not registered on management system.";
             }
         }

@@ -7,7 +7,8 @@ class VerifyCsrfToken extends BaseVerifier {
 
     private $openRoutes =
         [
-            'sendping'
+            'sendping',
+            'registerslack',
         ];
 
     /**
