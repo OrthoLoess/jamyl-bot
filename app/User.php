@@ -126,7 +126,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function searchSlackList($slackUsers)
     {
         foreach ($slackUsers as $slackUser) {
-            if (!$slackUser['deleted'] && $slackUser['profile']['email'] == $this->email) {
+            if (!$slackUser['is_bot'] && !$slackUser['deleted'] && $slackUser['profile']['email'] == $this->email) {
                 $this->slack_id = $slackUser['id'];
                 $this->slack_name = $slackUser['name'];
                 $this->save();

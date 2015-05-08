@@ -12,6 +12,8 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		'JamylBot\Console\Commands\Inspire',
+        'JamylBot\Console\Commands\CheckApis',
+        'JamylBot\Console\Commands\RegisterSlackUsers',
 	];
 
 	/**
@@ -22,8 +24,9 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('inspire')
-				 ->hourly();
+		//$schedule->command('inspire')->hourly();
+        $schedule->command('api:checks')->everyTenMinutes();
+        $schedule->command('slack:register')->everyFiveMinutes();
 	}
 
 }
