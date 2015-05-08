@@ -147,6 +147,7 @@ return [
 
         'Laravel\Socialite\SocialiteServiceProvider',
         'Laracasts\Flash\FlashServiceProvider',
+        'Collective\Html\HtmlServiceProvider',
 
 	],
 
@@ -198,6 +199,9 @@ return [
 
         'Socialize' => 'Laravel\Socialite\Facades\Socialite',
         'Flash'     => 'Laracasts\Flash\Flash',
+        'Form'      => 'Collective\Html\FormFacade',
+        'Html'      => 'Collective\Html\HtmlFacade',
+
 	],
 
 ];

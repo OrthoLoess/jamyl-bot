@@ -13,10 +13,12 @@ use JamylBot\User;
 class Userbot {
 
     protected $apiMonkey;
+    protected $slackMonkey;
 
     public function __construct()
     {
         $this->apiMonkey = new ApiMonkey($this);
+        $this->slackMonkey = new SlackMonkey();
     }
 
     public function performUpdates()
@@ -55,6 +57,13 @@ class Userbot {
     {
         $user = User::findByChar($charId);
         $user->error = null;
+        $user->save();
+    }
+
+    public function addEmail($user, $email)
+    {
+        $this->slackMonkey->sendInvite($email, $user->char_name);
+        $user->email = $email;
         $user->save();
     }
 

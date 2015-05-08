@@ -8,7 +8,22 @@
 				<div class="panel-heading">Home</div>
 
 				<div class="panel-body">
-					You are logged in!
+                    <img src="{{$avatar}}" alt="Character Portrait" class="pull-right">
+                    <p>Welcome {{$name}}.</p>
+                    @if($email)
+                        <p>Your registered email address is {{$email}}</p>
+                        @if($slackName)
+                            <p>Your Slack username is {{$slackName}}</p>
+                        @else
+                            <p>Type '/register' on slack to continue.</p>
+                        @endif
+                    @else
+                        <p>Enter your email address to receive a slack invite:</p>
+                        {!! Form::open(array('url' => 'form/addEmail')) !!}
+                        {!! Form::email('email') !!}
+                        {!! Form::submit('Send Slack Invite') !!}
+                        {!! Form::close() !!}
+                    @endif
 				</div>
 			</div>
 		</div>

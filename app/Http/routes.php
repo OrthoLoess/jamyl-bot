@@ -18,18 +18,20 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::get('login', ['middleware' => 'guest', 'uses' => 'AuthController@redirectToProvider']);
+Route::get('auth/login', 'AuthController@redirectToProvider');
 
 Route::get('auth/logout', function() {
     Auth::logout();
     return redirect('/');
 });
 
-Route::get('callback', ['middleware' => 'guest', 'uses' => 'AuthController@handleProviderCallback']);
+Route::get('callback', 'AuthController@handleProviderCallback');
 
 Route::post('sendping', function (Request $request, Pingbot $pingbot){
     return $pingbot->processPingCommand($request->all());
 });
+
+Route::post('form/addEmail', 'HomeController@addEmail');
 
 Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
     //return $api->checkCharacter('1124364023,');90274790

@@ -34,14 +34,16 @@
 
 			.quote {
 				font-size: 24px;
+                margin-bottom: 20px;
 			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Laravel 5</div>
-				<div class="quote">{{ Inspiring::quote() }}</div>
+				<div class="title">ProviBloc Slack</div>
+				<div class="quote">Login with EVE to get a slack invite.</div>
+                <div><a href="auth/login"><img src="images/EVE_SSO_Login_Buttons_Large_White.png", alt="Login with EVE SSO"></a></div>
 			</div>
 		</div>
 	</body>

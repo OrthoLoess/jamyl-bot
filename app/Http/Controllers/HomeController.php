@@ -1,5 +1,9 @@
 <?php namespace JamylBot\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
+use JamylBot\Userbot\Userbot;
+
 class HomeController extends Controller {
 
 	/*
@@ -13,14 +17,19 @@ class HomeController extends Controller {
 	|
 	*/
 
+    protected $userbot;
+    protected $user;
+
 	/**
 	 * Create a new controller instance.
 	 *
-	 * @return void
+     * @param Userbot $userbot
 	 */
-	public function __construct()
+	public function __construct(Userbot $userbot)
 	{
 		$this->middleware('auth');
+        $this->userbot = $userbot;
+        $this->user = \Auth::user();
 	}
 
 	/**
@@ -30,7 +39,20 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+		return view('home', [
+            'name' => $this->user->char_name,
+            'avatar' => $this->user->getAvatarUrl(),
+            'email' => $this->user->email,
+            'slackName' => $this->user->slack_name,
+        ]);
 	}
+
+    public function addEmail(Request $request)
+    {
+        $email = $request->input('email');
+        //dd($email);
+        $this->userbot->addEmail($this->user, $email);
+        return redirect('home');
+    }
 
 }

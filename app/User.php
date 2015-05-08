@@ -38,6 +38,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    protected $avatarSizes = [32, 64, 128, 256, 512, 1024];
+
     /**
      *
      */
@@ -111,6 +113,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $user->updateStatus();
             $user->save();
         }
+    }
+
+    public function getAvatarUrl($size = 128)
+    {
+        if (!in_array($size, $this->avatarSizes)){
+            throw new \Exception('Invalid avatar size requested.');
+        }
+        return 'https://image.eveonline.com/Character/'.$this->char_id.'_'.$size.'.jpg';
     }
 
     /**
