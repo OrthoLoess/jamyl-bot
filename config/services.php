@@ -44,7 +44,7 @@ return [
     'eveonline' => [
         'client_id' => env('EVE_CLIENT_ID'),
         'client_secret' => env('EVE_CLIENT_SECRET'),
-        'redirect' => 'http://localhost:8000/callback',
+        'redirect' => env('EVE_REDIRECT'),
     ],
 
 ];
