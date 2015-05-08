@@ -79,6 +79,7 @@ class Userbot {
         } catch ( ModelNotFoundException $e ) {
             try {
                 $user = User::findByChar($requestVars['text']);
+                $user->email = $userData['profile']['email'];
             } catch ( ModelNotFoundException $ee ) {
                 return "Character not registered on management system.";
             }
