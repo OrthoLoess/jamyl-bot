@@ -225,4 +225,12 @@ class SlackMonkey {
             return true;
         throw new SlackException($response->json()['error']);
     }
+
+    public function getUserData($userId)
+    {
+        $response = $this->guzzle->get("users.info?user=$userId");
+        if ($response->json()['ok'])
+            return $response->json()['user'];
+        throw new SlackException($response->json()['error']);
+    }
 }

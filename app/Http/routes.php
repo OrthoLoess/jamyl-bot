@@ -30,6 +30,9 @@ Route::get('callback', 'AuthController@handleProviderCallback');
 Route::post('sendping', function (Request $request, Pingbot $pingbot){
     return $pingbot->processPingCommand($request->all());
 });
+Route::post('registerslack', function (Request $request, \JamylBot\Userbot\Userbot $userbot) {
+    return $userbot->registerSlack($request->all());
+});
 
 Route::post('form/addEmail', 'HomeController@addEmail');
 

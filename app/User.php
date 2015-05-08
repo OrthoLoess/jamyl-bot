@@ -138,6 +138,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return User::where('slack_id', $slackId)->firstOrFail();
     }
 
+    public static function findByEmail($email)
+    {
+        return User::where('email', $email)->firstOrFail();
+    }
+
     public static function listNeedUpdateIds($limit)
     {
         $allUsers = User::all();

@@ -14,6 +14,7 @@ return [
     'api-url'   => 'https://provibloc.slack.com/api/',
     'api-token' => env('SLACK_API_TOKEN'),
     'admin-token' => env('SLACK_ADMIN_TOKEN'),
+    'register-token' => env('SLACK_REGISTER_TOKEN'),
 
     'post-url' => env('SLACK_POST_URL'),
 

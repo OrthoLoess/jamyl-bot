@@ -47,6 +47,7 @@ class HomeController extends Controller {
             'status' => $this->user->status,
             'corp' => $this->user->corp_name,
             'alliance' => $this->user->alliance_name,
+            'charId' => $this->user->char_id,
         ]);
 	}
 

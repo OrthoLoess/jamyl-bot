@@ -12,9 +12,9 @@
                     <p>Welcome {{$name}}.</p>
                     @if($status == 'holder' || $status == 'blue' || $status == 'light-blue')
                         @if($email)
-                            <p>Your registered email address is {{$email}}</p>
+                            <p>Your registered email address is {{ $email }}</p>
                             @if($slackName)
-                                <p>Your Slack username is {{$slackName}}</p>
+                                <p>Your Slack username is {{ $slackName }}</p>
                             @else
                                 <p>Type '/register' on slack to continue.</p>
                             @endif
@@ -24,6 +24,7 @@
                             {!! Form::email('email') !!}
                             {!! Form::submit('Send Slack Invite') !!}
                             {!! Form::close() !!}
+                            <p>If you are already registered on slack, type '/register {{ $charId }}' in slack.</p>
                         @endif
                     @else
                         <p>You do not appear to have the correct standings on this character.</p>

@@ -8,6 +8,7 @@
 
 namespace JamylBot\Userbot;
 
+use JamylBot\Exceptions\SlackException;
 use JamylBot\User;
 
 class Userbot {
@@ -65,6 +66,29 @@ class Userbot {
         $this->slackMonkey->sendInvite($email, $user->char_name);
         $user->email = $email;
         $user->save();
+    }
+
+    public function registerSlack($requestVars)
+    {
+        if ($requestVars['token'] != config('slack.register-token')) {
+            return 'Invalid authentication token';
+        }
+        $userData = $this->slackMonkey->getUserData($requestVars['user_id']);
+        try {
+            $user = User::findByEmail($userData['profile']['email']);
+        } catch ( SlackException $e ) {
+            try {
+                $user = User::findByChar($requestVars['text']);
+            } catch ( SlackException $ee ) {
+                return "Character not registered on management system.";
+            }
+        }
+        if ($user->slack_id)
+            return 'User already registered';
+        $user->slack_id = $userData['id'];
+        $user->slack_name = $userData['name'];
+        $user->save();
+        return 'User details updated.';
     }
 
     protected static function getRandomBytes($nbBytes = 32)
