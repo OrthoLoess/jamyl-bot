@@ -123,6 +123,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return 'https://image.eveonline.com/Character/'.$this->char_id.'_'.$size.'.jpg';
     }
 
+    public function searchSlackList($slackUsers)
+    {
+        foreach ($slackUsers as $slackUser) {
+            if (!$slackUser['deleted'] && $slackUser['profile']['email'] == $this->email) {
+                $this->slack_id = $slackUser['id'];
+                $this->slack_name = $slackUser['name'];
+                $this->save();
+            }
+        }
+    }
+
     /**
      * @param $charId
      *

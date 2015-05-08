@@ -92,6 +92,19 @@ class Userbot {
         return 'User details updated.';
     }
 
+    /**
+     * @throws \JamylBot\Exceptions\SlackException
+     */
+    public function linkSlackMembers()
+    {
+        /** @var User $users */
+        $users = User::where('slack_id', null);
+        $slackUsers = $this->slackMonkey->getUsers();
+        foreach ($users as $user) {
+            $user->searchSlackList($slackUsers);
+        }
+    }
+
     protected static function getRandomBytes($nbBytes = 32)
     {
         $bytes = openssl_random_pseudo_bytes($nbBytes, $strong);
