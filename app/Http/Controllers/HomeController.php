@@ -44,6 +44,9 @@ class HomeController extends Controller {
             'avatar' => $this->user->getAvatarUrl(),
             'email' => $this->user->email,
             'slackName' => $this->user->slack_name,
+            'status' => $this->user->status,
+            'corp' => $this->user->corp_name,
+            'alliance' => $this->user->alliance_name,
         ]);
 	}
 
