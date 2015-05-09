@@ -38,8 +38,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
-    protected $avatarSizes = [32, 64, 128, 256, 512, 1024];
-
     /**
      *
      */
@@ -117,10 +115,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function getAvatarUrl($size = 128)
     {
-        if (!in_array($size, $this->avatarSizes)){
+        if (!in_array($size, config('eve.avatar_sizes'))){
             throw new \Exception('Invalid avatar size requested.');
         }
-        return 'https://image.eveonline.com/Character/'.$this->char_id.'_'.$size.'.jpg';
+        return config('eve.avatar_url').$this->char_id.'_'.$size.'.jpg';
     }
 
     public function searchSlackList($slackUsers)

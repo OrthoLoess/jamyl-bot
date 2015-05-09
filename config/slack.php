@@ -22,4 +22,8 @@ return [
 
     'auto-join-channels' => ['C04G7GNLT'],
 
+    'command-tokens' => [
+        '/portrait' => env('SLACK_PORTRAIT_TOKEN'),
+    ],
+
 ];

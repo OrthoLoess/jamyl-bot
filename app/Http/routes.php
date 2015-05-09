@@ -36,6 +36,8 @@ Route::post('registerslack', function (Request $request, \JamylBot\Userbot\Userb
 
 Route::post('form/addEmail', 'HomeController@addEmail');
 
+Route::post('portrait', 'CommandController@getPortrait');
+
 Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
     //return $api->checkCharacter('1124364023,');90274790
 
