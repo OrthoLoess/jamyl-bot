@@ -45,6 +45,7 @@ class ZkillMonkey {
             $path .= 'afterKillId/'.$after.'/';
         }
         $response = $this->guzzle->get($path);
+        print("Zkill returned HTTP status code: ".$response->getStatusCode()."<br><br>");
         return $response->json();
     }
 

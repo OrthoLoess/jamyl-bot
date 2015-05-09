@@ -16,11 +16,13 @@ class Killbot {
 
     protected $zkill;
     protected $slack;
+    protected $eveXML;
 
-    public function __construct(ZkillMonkey $zkill, SlackMonkey $slack)
+    public function __construct(ZkillMonkey $zkill, SlackMonkey $slack, eveXMLMonkey $eveXML)
     {
         $this->zkill = $zkill;
         $this->slack = $slack;
+        $this->eveXML = $eveXML;
     }
 
     public function cycleCorps()
@@ -46,6 +48,9 @@ class Killbot {
             if ($last)
                 $this->saveLastId($last);
         }
+        else {
+            print("No new dank frags :( ... ");
+        }
 
     }
     protected function sendKill($kill, $corp) {
@@ -54,10 +59,17 @@ class Killbot {
             'channel'   => $corp['channel'],
             'icon_emoji'=> config('killbot.emoji'),
             'text'      => "Dank Frag ALERT!!\n".
-                $kill['victim']['characterName']." died in a ship worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil\n".
+                $kill['victim']['characterName']." died in a ".$this->eveXML->getItemNameFromID($kill['victim']['shipTypeID']).
+                " worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil\n".
                 config('killbot.kill_link').$kill['killID']."/",
         ];
         $this->slack->sendMessageToServer($payload);
+        //var_dump($payload);
+    }
+
+    protected function getItemName($id)
+    {
+
     }
 
     protected function saveLastId($id)

@@ -48,8 +48,8 @@ Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
 });
 
 Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
-    $killbot->resetLastId();
-    //$killbot->cycleCorps();
+    //$killbot->resetLastId();
+    $killbot->cycleCorps();
     return 'done';
 });
 
