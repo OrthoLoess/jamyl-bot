@@ -47,6 +47,12 @@ Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
 
 });
 
+Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
+    $killbot->resetLastId();
+    //$killbot->cycleCorps();
+    return 'done';
+});
+
 Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack){
     //return $slack->getUsers();//'G04G7KMFM');
     //$slack->setActive('U04FM6218');

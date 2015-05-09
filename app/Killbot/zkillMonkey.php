@@ -12,10 +12,10 @@ namespace JamylBot\Killbot;
 use GuzzleHttp\Client;
 
 /**
- * Class zkillMonkey
+ * Class ZkillMonkey
  * @package JamylBot\Killbot
  */
-class zkillMonkey {
+class ZkillMonkey {
 
     /**
      * @var Client
@@ -23,15 +23,18 @@ class zkillMonkey {
     protected $guzzle;
 
     /**
-     * @param Client $guzzle
+     *
      */
     public function __construct()
     {
         $this->guzzle = new Client([
-            'base_url'  => 'https://zkillboard.com/api/kills/',
-            'headers'   => [
-                'Accept-Encoding' => 'gzip',
+            'base_url'  => config('killbot.base_url'),
+            'defaults'  => [
+                'headers'   => [
+                    'Accept-Encoding' => 'gzip',
+                ],
             ],
+
         ]);
     }
 
