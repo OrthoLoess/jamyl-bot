@@ -11,24 +11,27 @@ namespace JamylBot\Killbot;
 
 use Illuminate\Support\Facades\DB;
 use JamylBot\Userbot\SlackMonkey;
+use JamylBot\Userbot\ApiMonkey;
 
 class Killbot {
 
     protected $zkill;
     protected $slack;
-    protected $eveXML;
+    protected $api;
 
-    public function __construct(ZkillMonkey $zkill, SlackMonkey $slack, eveXMLMonkey $eveXML)
+    public function __construct(ZkillMonkey $zkill, SlackMonkey $slack, ApiMonkey $api)
     {
         $this->zkill = $zkill;
         $this->slack = $slack;
-        $this->eveXML = $eveXML;
+        $this->api = $api;
     }
 
     public function cycleCorps()
     {
         foreach (config('killbot.corps') as $corp){
-            $this->getNewKills($corp);
+            if ( $corp['active'] === true ) {
+                $this->getNewKills($corp);
+            }
         }
     }
 
@@ -59,17 +62,11 @@ class Killbot {
             'channel'   => $corp['channel'],
             'icon_emoji'=> config('killbot.emoji'),
             'text'      => "Dank Frag ALERT!!\n".
-                $kill['victim']['characterName']." died in a ".$this->eveXML->getItemNameFromID($kill['victim']['shipTypeID']).
-                " worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil\n".
+                $kill['victim']['characterName']." died in a ".$this->api->getTypeName($kill['victim']['shipTypeID'])." worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil\n".
                 config('killbot.kill_link').$kill['killID']."/",
         ];
         $this->slack->sendMessageToServer($payload);
         //var_dump($payload);
-    }
-
-    protected function getItemName($id)
-    {
-
     }
 
     protected function saveLastId($id)

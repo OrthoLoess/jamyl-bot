@@ -126,4 +126,10 @@ class ApiMonkey {
         $result = $this->pheal->eveScope->CharacterAffiliation(['ids' => $charId]);
         $this->userbot->updateAffiliations($result);
     }
+
+    public function getTypeName($typeId)
+    {
+        $result = $this->pheal->eveScope->TypeName(['ids' => $typeId]);
+        return $result->types[0]->typeName;
+    }
 }
