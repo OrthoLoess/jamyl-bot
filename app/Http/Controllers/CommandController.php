@@ -6,14 +6,17 @@ use JamylBot\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use JamylBot\User;
+use JamylBot\Userbot\SlackMonkey;
 
 class CommandController extends Controller {
 
-    public $requestVars;
+    protected $requestVars;
+    protected $slack;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, SlackMonkey $slack)
     {
         $this->requestVars = $request->all();
+        $this->slack = $slack;
     }
 
 	/**
@@ -35,7 +38,15 @@ class CommandController extends Controller {
         } else {
             $suffix = '_512.jpg';
         }
-        return config('eve.avatar_url').$user->char_id.$suffix;
+        $link = config('eve.avatar_url').$user->char_id.$suffix;
+        $payload = [
+            'channel' => '@'.$this->requestVars['user_name'],
+            'username' => config('pingbot.ping-bot-name'),
+            'icon_emoji' => config('pingbot.ping-bot-emoji'),
+            'text' => $link,
+        ];
+        $this->slack->sendMessageToServer($payload);
+        return "Portrait link sent to slackbot DM channel \n".$link;
 	}
 
     /**
