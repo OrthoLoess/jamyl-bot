@@ -159,13 +159,13 @@ class Killbot {
             return 'Unknown ISK';
         
         if ( $n>1000000000000 )
-            return number_format(round(($n/1000000000000),1)).' tril';
+            return number_format(round(($n/1000000000000),1), 1).' tril';
 
         else if ( $n>1000000000 ) 
-            return number_format(round(($n/1000000000),1)).' bil';
+            return number_format(round(($n/1000000000),1), 1).' bil';
 
         else if ( $n>100000000 ) 
-            return number_format(round(($n/1000000),1)).' mil';
+            return number_format(round(($n/1000000),1), 1).' mil';
         
         return number_format($n). ' ISK';
     }
