@@ -21,14 +21,13 @@ return [
     'corps' => [
         'ptb' => [
             'id' => 398598576,
-            'channel' => 'api_test',
+            'channel' => 'ptb',
             'active' => true
         ],
-        'wasp' => [
-            'id' => 101116365,
-            'channel' => 'api_test',
-            'active' => false
-        ],
+//        'wasp' => [
+//            'id' => 101116365,
+//            'channel' => 'api_test',
+//            'active' => false
+//        ],
     ],
-
 ];
