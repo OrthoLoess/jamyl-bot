@@ -13,6 +13,7 @@ return [
 
     'base_url' => 'https://zkillboard.com/api/kills/',
     'kill_link' => 'https://zkillboard.com/kill/',
+    'ship_renders' => 'https://image.eveonline.com/Render/',
     'min_value' => 1000000000,
     'name' => 'DankBot',
     'emoji' => ':ptb:',

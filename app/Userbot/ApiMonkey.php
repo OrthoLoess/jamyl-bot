@@ -127,6 +127,9 @@ class ApiMonkey {
         $this->userbot->updateAffiliations($result);
     }
 
+    /**
+     * @param int $typeId
+     */
     public function getTypeName($typeId)
     {
         $result = $this->pheal->eveScope->TypeName(['ids' => $typeId]);

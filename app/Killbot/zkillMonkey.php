@@ -42,10 +42,13 @@ class ZkillMonkey {
     {
         $path = 'corporationID/'.$corpId.'/';
         if ($after) {
-            $path .= 'afterKillId/'.$after.'/';
+            $path .= 'afterKillID/'.$after.'/';
         }
+        $path .= 'orderDirection/desc/no-items/';
         $response = $this->guzzle->get($path);
-        print("Zkill returned HTTP status code: ".$response->getStatusCode()."<br><br>");
+        if ( $response->getStatusCode() != 200 ) {
+            Log::warning("Zkill returned HTTP status code: ".$response->getStatusCode()." when requesting kills for corp ID ".$corpId);
+        }
         return $response->json();
     }
 

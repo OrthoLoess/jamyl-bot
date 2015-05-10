@@ -51,19 +51,45 @@ class Killbot {
             if ($last)
                 $this->saveLastId($last);
         }
-        else {
-            print("No new dank frags :( ... ");
-        }
-
     }
     protected function sendKill($kill, $corp) {
+        $involved = "";
+        $finalblow = "";
+        foreach($kill['attackers'] as $attacker) {
+            if ($attacker['corporationID'] == $corp['id']) {
+                $involved .= $attacker['characterName']." (".$this->api->getTypeName($attacker['shipTypeID']).")\n";
+            }
+            if ($attacker['finalBlow'] == 1)
+            {
+                $finalblow = $attacker['characterName']." (".$this->api->getTypeName($attacker['shipTypeID']).")";
+            }
+        }
         $payload = [
             'username'  => config('killbot.name'),
             'channel'   => $corp['channel'],
             'icon_emoji'=> config('killbot.emoji'),
-            'text'      => "Dank Frag ALERT!!\n".
-                $kill['victim']['characterName']." died in a ".$this->api->getTypeName($kill['victim']['shipTypeID'])." worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil\n".
-                config('killbot.kill_link').$kill['killID']."/",
+            'text' => '*Dank Frag Alert!!*',
+            'attachments' => [
+                [
+                    'fallback'  => "Dank Frag ALERT!! ".$kill['victim']['characterName']." died in a ".$this->api->getTypeName($kill['victim']['shipTypeID'])." worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil -- ".config('killbot.kill_link').$kill['killID']."/",
+                    'color'     => 'danger',
+                    'title'     => $kill['victim']['characterName']." died in a ".$this->api->getTypeName($kill['victim']['shipTypeID'])." worth ".number_format(round($kill['zkb']['totalValue']/1000000000.0, 2), 2)." bil",
+                    'title_link'=> config('killbot.kill_link').$kill['killID']."/",
+                    'fields'    => [
+                        [
+                            'title'     => 'Involved Corp Members',
+                            'value'     => $involved,
+                            'short'     => true
+                        ],
+                        [
+                            'title'     => 'Final Blow',
+                            'value'     => $finalblow,
+                            'short'     => true
+                        ],
+                    ],
+                    //'image_url' => config('killbot.ship_renders').$kill['victim']['shipTypeID']."_128.png",
+                ],
+            ],
         ];
         $this->slack->sendMessageToServer($payload);
         //var_dump($payload);
