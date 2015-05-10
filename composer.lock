@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "480dd787d7c23df5f6e576b58214e133",
@@ -886,12 +886,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OrthoLoess/socialite.git",
-                "reference": "5edb67dca8ee368beac30f449f98971a5137353f"
+                "reference": "2cb1e38b4f01cca528e50e48ee0f7805c84fe7a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OrthoLoess/socialite/zipball/5edb67dca8ee368beac30f449f98971a5137353f",
-                "reference": "5edb67dca8ee368beac30f449f98971a5137353f",
+                "url": "https://api.github.com/repos/OrthoLoess/socialite/zipball/2cb1e38b4f01cca528e50e48ee0f7805c84fe7a6",
+                "reference": "2cb1e38b4f01cca528e50e48ee0f7805c84fe7a6",
                 "shasum": ""
             },
             "require": {
@@ -934,7 +934,7 @@
             "support": {
                 "source": "https://github.com/OrthoLoess/socialite/tree/add-eveonline"
             },
-            "time": "2015-05-08 14:39:12"
+            "time": "2015-04-29 13:29:23"
         },
         {
             "name": "laravelcollective/html",
