@@ -44,7 +44,13 @@ class ApiMonkey {
     {
         $this->pheal = new Pheal();
         $this->userbot = $userbot;
-        PhealConfig::getInstance()->cache = new \Pheal\Cache\FileStorage(storage_path().'/app/phealCache/');
+        $dbSettings = config('database.connections.mysql');
+        PhealConfig::getInstance()->cache = new \Pheal\Cache\PdoStorage(
+            $dbSettings['driver'].':host='.$dbSettings['host'].';dbname='.$dbSettings['database'],
+            $dbSettings['username'],
+            $dbSettings['password']
+        );
+        //PhealConfig::getInstance()->cache = new \Pheal\Cache\FileStorage(storage_path().'/app/phealCache/');
         PhealConfig::getinstance()->access = new \Pheal\Access\StaticCheck();
     }
 
