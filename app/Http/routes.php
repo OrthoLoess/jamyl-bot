@@ -14,51 +14,57 @@
 use Illuminate\Http\Request;
 use \JamylBot\Pingbot\Pingbot;
 
-Route::get('/', 'WelcomeController@index');
+Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
 
-Route::get('home', 'HomeController@index');
+    Route::get('/', 'WelcomeController@index');
 
-Route::get('auth/login', 'AuthController@redirectToProvider');
+    Route::get('home', 'HomeController@index');
 
-Route::get('auth/logout', function() {
-    Auth::logout();
-    return redirect('/');
+    Route::get('auth/login', 'AuthController@redirectToProvider');
+
+    Route::get('auth/logout', function () {
+        Auth::logout();
+        return redirect('/');
+    });
+
+    Route::get('callback', 'AuthController@handleProviderCallback');
+
+    Route::post('sendping', function (Request $request, Pingbot $pingbot) {
+        return $pingbot->processPingCommand($request->all());
+    });
+    Route::post('registerslack', function (Request $request, \JamylBot\Userbot\Userbot $userbot) {
+        return $userbot->registerSlack($request->all());
+    });
+
+    Route::post('form/addEmail', 'HomeController@addEmail');
+
+    Route::post('portrait', 'CommandController@getPortrait');
+
+    Route::get('test', function (\JamylBot\Userbot\Userbot $bot) {
+        //return $api->checkCharacter('1124364023,');90274790
+
+        //dd(JamylBot\User::listNeedUpdateIds(10));
+        //$api->addToAffiliationQueue('1124364023', true);
+        //$api->addToAffiliationQueue('902747f905');
+        $bot->performUpdates();
+        //$api->sendQueuedCall();
+
+    });
+
+    Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
+        //$killbot->resetLastId();
+        $killbot->cycleCorps();
+        return 'done';
+    });
+
+    Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack) {
+        //return $slack->getUsers();//'G04G7KMFM');
+        //$slack->setActive('U04FM6218');
+        //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
+
+        return 'done';
+    });
+
 });
 
-Route::get('callback', 'AuthController@handleProviderCallback');
-
-Route::post('sendping', function (Request $request, Pingbot $pingbot){
-    return $pingbot->processPingCommand($request->all());
-});
-Route::post('registerslack', function (Request $request, \JamylBot\Userbot\Userbot $userbot) {
-    return $userbot->registerSlack($request->all());
-});
-
-Route::post('form/addEmail', 'HomeController@addEmail');
-
-Route::post('portrait', 'CommandController@getPortrait');
-
-Route::get('test', function (\JamylBot\Userbot\Userbot $bot){
-    //return $api->checkCharacter('1124364023,');90274790
-
-    //dd(JamylBot\User::listNeedUpdateIds(10));
-    //$api->addToAffiliationQueue('1124364023', true);
-    //$api->addToAffiliationQueue('902747f905');
-    $bot->performUpdates();
-    //$api->sendQueuedCall();
-
-});
-
-Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
-    //$killbot->resetLastId();
-    $killbot->cycleCorps();
-    return 'done';
-});
-
-Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack){
-    //return $slack->getUsers();//'G04G7KMFM');
-    //$slack->setActive('U04FM6218');
-    //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
-
-    return 'done';
-});
+Route::get('/', 'WelcomeController@portal');

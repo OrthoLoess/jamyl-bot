@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "47714a07ebfb2d05422cc84a51344c37",
+    "hash": "7fa8dacd6a286b66c845e9bbb58edb46",
     "packages": [
         {
             "name": "3rdpartyeve/phealng",
-            "version": "2.1.0",
+            "version": "dev-add-predis",
             "source": {
                 "type": "git",
-                "url": "https://github.com/3rdpartyeve/phealng.git",
-                "reference": "4754a4d6cbc9bbe91abf0cce36526d544d4e9bc9"
+                "url": "https://github.com/OrthoLoess/phealng.git",
+                "reference": "1612559989f390c90999883f5868cfed3315a2f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/3rdpartyeve/phealng/zipball/4754a4d6cbc9bbe91abf0cce36526d544d4e9bc9",
-                "reference": "4754a4d6cbc9bbe91abf0cce36526d544d4e9bc9",
+                "url": "https://api.github.com/repos/OrthoLoess/phealng/zipball/1612559989f390c90999883f5868cfed3315a2f4",
+                "reference": "1612559989f390c90999883f5868cfed3315a2f4",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,6 @@
                     "Pheal\\": "lib/Pheal/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -53,7 +52,11 @@
                 "Pheal",
                 "PhealNG"
             ],
-            "time": "2015-01-17 17:57:58"
+            "support": {
+                "issues": "https://github.com/3rdpartyeve/phealng/issues",
+                "source": "https://github.com/OrthoLoess/phealng/tree/add-predis"
+            },
+            "time": "2015-05-18 12:40:02"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -3434,7 +3437,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "laravel/socialite": 20
+        "laravel/socialite": 20,
+        "3rdpartyeve/phealng": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
