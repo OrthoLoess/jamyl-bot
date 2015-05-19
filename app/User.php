@@ -46,6 +46,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->belongsToMany('JamylBot\Group');
     }
 
+    /**
+     * @return array
+     */
     public function getDates()
     {
         return ['created_at', 'updated_at', 'next_check'];
@@ -99,11 +102,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function needsUpdate()
     {
         return $this->next_check->lte(Carbon::now());
     }
 
+    /**
+     * @return bool
+     */
+    public function hasAccess()
+    {
+        if ($this->status == 'holder' || $this->status == 'blue') {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
     public static function updateAll()
     {
         $users = User::all();
@@ -113,6 +133,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
     }
 
+    /**
+     * @param int $size
+     *
+     * @return string
+     * @throws \Exception
+     */
     public function getAvatarUrl($size = 128)
     {
         if (!in_array($size, config('eve.avatar_sizes'))){
@@ -121,6 +147,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return config('eve.avatar_url').$this->char_id.'_'.$size.'.jpg';
     }
 
+    /**
+     * @param array $slackUsers
+     */
     public function searchSlackList($slackUsers)
     {
         foreach ($slackUsers as $slackUser) {
@@ -133,7 +162,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * @param $charId
+     * @param int $charId
      *
      * @return User
      */
@@ -142,16 +171,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return User::where('char_id', $charId)->firstOrFail();
     }
 
+    /**
+     * @param string $slackId
+     *
+     * @return User
+     */
     public static function findBySlack($slackId)
     {
         return User::where('slack_id', $slackId)->firstOrFail();
     }
 
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
     public static function findByEmail($email)
     {
         return User::where('email', $email)->firstOrFail();
     }
 
+    /**
+     * @param int $limit
+     *
+     * @return array
+     */
     public static function listNeedUpdateIds($limit)
     {
         $allUsers = User::all();
@@ -166,6 +210,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $users;
     }
 
+    /**
+     * @param array $charArray
+     *
+     * @return User
+     */
     public static function createAndFill($charArray)
     {
         $user = User::create($charArray);
