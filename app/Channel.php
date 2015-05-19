@@ -11,9 +11,4 @@ class Channel extends Model {
         $this->belongsToMany('JamylBot\Group');
     }
 
-//    public function users()
-//    {
-//        $this->hasManyThrough('JamylBot\User', 'JamylBot\Group');
-//    }
-
 }
