@@ -4,20 +4,20 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7fa8dacd6a286b66c845e9bbb58edb46",
+    "hash": "d7835b7e5df9fd391f10f2ead80ed91d",
     "packages": [
         {
             "name": "3rdpartyeve/phealng",
-            "version": "dev-add-predis",
+            "version": "dev-fix-predis",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OrthoLoess/phealng.git",
-                "reference": "1612559989f390c90999883f5868cfed3315a2f4"
+                "reference": "65c9974d5ceec2de5e1c33fba6eefacbd5ad6d6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OrthoLoess/phealng/zipball/1612559989f390c90999883f5868cfed3315a2f4",
-                "reference": "1612559989f390c90999883f5868cfed3315a2f4",
+                "url": "https://api.github.com/repos/OrthoLoess/phealng/zipball/65c9974d5ceec2de5e1c33fba6eefacbd5ad6d6c",
+                "reference": "65c9974d5ceec2de5e1c33fba6eefacbd5ad6d6c",
                 "shasum": ""
             },
             "require": {
@@ -54,9 +54,9 @@
             ],
             "support": {
                 "issues": "https://github.com/3rdpartyeve/phealng/issues",
-                "source": "https://github.com/OrthoLoess/phealng/tree/add-predis"
+                "source": "https://github.com/OrthoLoess/phealng/tree/fix-predis"
             },
-            "time": "2015-05-18 12:40:02"
+            "time": "2015-05-19 11:49:57"
         },
         {
             "name": "classpreloader/classpreloader",
