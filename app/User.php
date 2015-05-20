@@ -59,20 +59,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function updateAffiliation($charInfo)
     {
-        $hasChanged = false;
         if ($this->corp_id != $charInfo['corporationID']) {
             $this->corp_id = $charInfo['corporationID'];
             $this->corp_name = $charInfo['corporationName'];
-            $hasChanged = true;
         }
         if ($this->alliance_id != $charInfo['allianceID']) {
             $this->alliance_id = $charInfo['allianceID'];
             $this->alliance_name = $charInfo['allianceName'];
-            $hasChanged = true;
         }
-        if ($hasChanged) {
-            $this->updateStatus();
-        }
+        $this->updateStatus();
         $this->next_check = $charInfo['cachedUntil'];
         $this->save();
     }
@@ -153,7 +148,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function searchSlackList($slackUsers)
     {
         foreach ($slackUsers as $slackUser) {
-            if (!$slackUser['is_bot'] && !$slackUser['deleted'] && $slackUser['profile']['email'] == $this->email) {
+            if (!$slackUser['deleted'] && !$slackUser['is_bot'] && !$slackUser['deleted'] && $slackUser['profile']['email'] == $this->email) {
                 $this->slack_id = $slackUser['id'];
                 $this->slack_name = $slackUser['name'];
                 $this->save();

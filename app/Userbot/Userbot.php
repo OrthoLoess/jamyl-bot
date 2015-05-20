@@ -140,8 +140,9 @@ class Userbot {
      */
     public function linkSlackMembers()
     {
-        /** @var User $users */
-        $users = User::where('slack_id', null);
+        /** @var array $users */
+        $users = User::where('slack_id', null)->get();
+        //\Log::info('Users: '.count($users));
         $slackUsers = $this->slackMonkey->getUsers();
         foreach ($users as $user) {
             $user->searchSlackList($slackUsers);
@@ -164,7 +165,7 @@ class Userbot {
      */
     public function listUnregistered()
     {
-        $users = User::where('slack_id', null);
+        $users = User::where('slack_id', null)->get();
         return $users;
     }
 
