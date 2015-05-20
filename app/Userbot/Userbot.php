@@ -8,20 +8,38 @@
 
 namespace JamylBot\Userbot;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use JamylBot\Exceptions\SlackException;
 use JamylBot\User;
 
+/**
+ * Class Userbot
+ * @package JamylBot\Userbot
+ */
 class Userbot {
 
+    /**
+     * @var ApiMonkey
+     */
     protected $apiMonkey;
+    /**
+     * @var SlackMonkey
+     */
     protected $slackMonkey;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->apiMonkey = new ApiMonkey($this);
         $this->slackMonkey = new SlackMonkey();
     }
 
+    /**
+     *
+     */
     public function performUpdates()
     {
         do {
@@ -33,11 +51,17 @@ class Userbot {
         } while (count($charIds));
     }
 
+    /**
+     * @param $charId
+     */
     public function updateSingle($charId)
     {
         $this->apiMonkey->sendSingleAffiliation($charId);
     }
 
+    /**
+     * @param $phealResults
+     */
     public function updateAffiliations($phealResults)
     {
         foreach ($phealResults->characters->toArray() as $phealResult) {
@@ -47,6 +71,10 @@ class Userbot {
         }
     }
 
+    /**
+     * @param $charId
+     * @param $error
+     */
     public function markAsErroring($charId, $error)
     {
         $user = User::findByChar($charId);
@@ -54,6 +82,9 @@ class Userbot {
         $user->save();
     }
 
+    /**
+     * @param $charId
+     */
     public function clearError($charId)
     {
         $user = User::findByChar($charId);
@@ -61,6 +92,12 @@ class Userbot {
         $user->save();
     }
 
+    /**
+     * @param $user
+     * @param $email
+     *
+     * @throws \JamylBot\Exceptions\SlackException
+     */
     public function addEmail($user, $email)
     {
         $this->slackMonkey->sendInvite($email, $user->char_name);
@@ -68,6 +105,12 @@ class Userbot {
         $user->save();
     }
 
+    /**
+     * @param $requestVars
+     *
+     * @return string
+     * @throws \JamylBot\Exceptions\SlackException
+     */
     public function registerSlack($requestVars)
     {
         if ($requestVars['token'] != config('slack.register-token')) {
@@ -105,6 +148,64 @@ class Userbot {
         }
     }
 
+    /**
+     * Deletes any user who has not entered an email address. Only affects accounts that were created more than
+     * $hours hours ago. Default is 48 hours.
+     *
+     * @param int $hours
+     */
+    public function clearNoEmail($hours = 48)
+    {
+        User::where('email', null)->where('created_at', '<', Carbon::now()->addHours($hours))->delete();
+    }
+
+    /**
+     * @return array
+     */
+    public function listUnregistered()
+    {
+        $users = User::where('slack_id', null);
+        return $users;
+    }
+
+    /**
+     *
+     */
+    public function setSlackInactives()
+    {
+        $users = User::all();
+        foreach ($users as $user){
+            if ($user->slack_id !== null && !$user->inactive &&
+                !($user->status == 'holder' || $user->status == 'blue' || $user -> status == 'light-blue')) {
+                try {
+                    $this->slackMonkey->setInactive($user->slack_id);
+                    $user->inactive = true;
+                    $user->save();
+                    \Log::info('User '.$user->char_name.' set inactive on slack API');
+                } catch (SlackException $e ){
+                    \Log::error($e->getMessage());
+                }
+            }
+            if ($user->slack_id !== null && $user->inactive &&
+                ($user->status == 'holder' || $user->status == 'blue' || $user -> status == 'light-blue')) {
+                try {
+                    $this->slackMonkey->setActive($user->slack_id);
+                    $user->inactive = false;
+                    $user->save();
+                    \Log::info('User '.$user->char_name.' reset to ACTIVE on slack API');
+                } catch (SlackException $e ){
+                    \Log::error($e->getMessage());
+                }
+            }
+        }
+    }
+
+    /**
+     * @param int $nbBytes
+     *
+     * @return string
+     * @throws \Exception
+     */
     protected static function getRandomBytes($nbBytes = 32)
     {
         $bytes = openssl_random_pseudo_bytes($nbBytes, $strong);
@@ -116,6 +217,12 @@ class Userbot {
         }
     }
 
+    /**
+     * @param $length
+     *
+     * @return string
+     * @throws \Exception
+     */
     public static function generatePassword($length){
         return substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(Userbot::getRandomBytes($length+1))),0,$length);
     }

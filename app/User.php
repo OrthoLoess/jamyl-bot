@@ -107,7 +107,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function needsUpdate()
     {
-        return $this->next_check->lte(Carbon::now());
+        return $this->next_check === null || $this->next_check->lte(Carbon::now());
     }
 
     /**
