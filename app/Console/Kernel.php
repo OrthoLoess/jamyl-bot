@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel {
         'JamylBot\Console\Commands\RegisterSlackUsers',
         'JamylBot\Console\Commands\RunKillbot',
         'JamylBot\Console\Commands\SetSlackInactives',
+        'JamylBot\Console\Commands\RunAllChecks',
+        'JamylBot\Console\Commands\ReadStandings',
 	];
 
 	/**
@@ -28,7 +30,7 @@ class Kernel extends ConsoleKernel {
 	{
 		//$schedule->command('inspire')->hourly();
         $schedule->command('jamyl:allchecks')->everyFiveMinutes();
-        $schedule->command('killbot:fire')->everyFiveMinutes();
+        $schedule->command('jamyl:firekillbot')->everyFiveMinutes();
 	}
 
 }

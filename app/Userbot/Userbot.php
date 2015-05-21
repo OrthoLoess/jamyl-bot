@@ -202,6 +202,18 @@ class Userbot {
     }
 
     /**
+     * Resets all statuses, based on standings, without doing API check first. can be triggered after updating
+     * standings to force a refresh.
+     */
+    public function readNewStandings()
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->updateStatus();
+        }
+    }
+
+    /**
      * @param int $nbBytes
      *
      * @return string

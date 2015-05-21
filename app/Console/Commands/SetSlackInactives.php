@@ -19,7 +19,7 @@ class SetSlackInactives extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Checks all users, if they are not listed as neutral, blue or light blue, sets their slack account inactive.';
+	protected $description = 'Checks all users, sets slack account active or inactive, based on standings.';
 
     /**
      * Create a new command instance.
