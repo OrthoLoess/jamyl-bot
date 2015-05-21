@@ -26,4 +26,6 @@ return [
         '/portrait' => env('SLACK_PORTRAIT_TOKEN'),
     ],
 
+    'cache-time' => 5,
+
 ];

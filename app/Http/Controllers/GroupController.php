@@ -56,7 +56,17 @@ class GroupController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        /** @var Group $group */
+        $group = Group::find($id);
+        if ($group == null) {
+            abort(404);
+        }
+        return view('admin.groups.show', [
+            'id'    => $group->id,
+            'name'  => $group->name,
+            'channels'  => $group->channels,
+            'users'     => $group->users,
+        ]);
 	}
 
 	/**

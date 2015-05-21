@@ -241,30 +241,32 @@ class SlackMonkey {
     }
 
     /**
-     * @param bool $excludeArchived
      *
      * @return mixed
      * @throws SlackException
      */
-    public function getGroupList($excludeArchived = true)
+    public function getGroupList()
     {
-        $response = $this->guzzle->get("groups.list?exclude_archived=".($excludeArchived ? '1' : '0'));
-        if ($response->json()['ok'])
-            return $response->json()['groups'];
-        throw new SlackException($response->json()['error']);
+        return \Cache::remember('group-list', config('slack.cache-time'), function() {
+            $response = $this->guzzle->get("groups.list?exclude_archived=1");
+            if ($response->json()['ok'])
+                return $response->json()['groups'];
+            throw new SlackException($response->json()['error']);
+        });
     }
 
     /**
-     * @param bool $excludeArchived
      *
      * @return mixed
      * @throws SlackException
      */
-    public function getChannelList($excludeArchived = true)
+    public function getChannelList()
     {
-        $response = $this->guzzle->get("channels.list?exclude_archived=".($excludeArchived ? '1' : '0'));
-        if ($response->json()['ok'])
-            return $response->json()['channels'];
-        throw new SlackException($response->json()['error']);
+        return \Cache::remember('channel-list', config('slack.cache-time'), function() {
+            $response = $this->guzzle->get("channels.list?exclude_archived=1");
+            if ($response->json()['ok'])
+                return $response->json()['channels'];
+            throw new SlackException($response->json()['error']);
+        });
     }
 }

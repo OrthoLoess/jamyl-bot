@@ -24,11 +24,9 @@
                                     <td>{{ $group->name }}</td>
                                     <td>{{ $group->owners }}</td>
                                     <td>
-
                                         @foreach ($group->channels as $channel)
                                             <div>{{ $channel->name }}</div>
                                         @endforeach
-
                                     </td>
                                 </tr>
                             @endforeach
