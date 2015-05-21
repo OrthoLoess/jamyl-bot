@@ -20,7 +20,8 @@
         "3rdpartyeve/phealng": "dev-fix-predis",
         "laracasts/flash": "~1.3",
         "laravelcollective/html": "~5.0",
-        "predis/predis": "~1.0"
+        "predis/predis": "~1.0",
+        "doctrine/dbal": "~2.5"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",

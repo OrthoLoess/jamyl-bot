@@ -43,7 +43,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function groups()
     {
-        $this->belongsToMany('JamylBot\Group');
+        return $this->belongsToMany('JamylBot\Group');
     }
 
     /**

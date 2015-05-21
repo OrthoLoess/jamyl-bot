@@ -8,12 +8,12 @@ class Group extends Model {
 
     public function users()
     {
-        $this->belongsToMany('JamylBot\User');
+        return $this->belongsToMany('JamylBot\User');
     }
 
     public function channels()
     {
-        $this->belongsToMany('JamylBot\Channel');
+        return $this->belongsToMany('JamylBot\Channel');
     }
 
     public function getOwners()
