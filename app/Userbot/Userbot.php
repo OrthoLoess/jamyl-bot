@@ -10,6 +10,7 @@ namespace JamylBot\Userbot;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use JamylBot\Channel;
 use JamylBot\Exceptions\SlackException;
 use JamylBot\User;
 
@@ -211,6 +212,26 @@ class Userbot {
         foreach ($users as $user) {
             $user->updateStatus();
             $user->save();
+        }
+    }
+
+    public function getNewChannels()
+    {
+        $channels = $this->slackMonkey->getChannelList();
+        foreach ($channels as $channel) {
+            Channel::firstOrCreate([
+                'name' => $channel['name'],
+                'slack_id' => $channel['id'],
+                'is_group' => false,
+            ]);
+        }
+        $groups = $this->slackMonkey->getGroupList();
+        foreach ($groups as $group) {
+            Channel::firstOrCreate([
+                'name' => $group['name'],
+                'slack_id' => $group['id'],
+                'is_group' => true,
+            ]);
         }
     }
 

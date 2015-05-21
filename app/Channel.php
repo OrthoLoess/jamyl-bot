@@ -11,4 +11,9 @@ class Channel extends Model {
         return $this->belongsToMany('JamylBot\Group');
     }
 
+    static function findBySlackId($slack_id)
+    {
+        return Channel::where('slack_id', $slack_id)->first();
+    }
+
 }

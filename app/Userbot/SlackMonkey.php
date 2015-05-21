@@ -226,11 +226,45 @@ class SlackMonkey {
         throw new SlackException($response->json()['error']);
     }
 
+    /**
+     * @param $userId
+     *
+     * @return mixed
+     * @throws SlackException
+     */
     public function getUserData($userId)
     {
         $response = $this->guzzle->get("users.info?user=$userId");
         if ($response->json()['ok'])
             return $response->json()['user'];
+        throw new SlackException($response->json()['error']);
+    }
+
+    /**
+     * @param bool $excludeArchived
+     *
+     * @return mixed
+     * @throws SlackException
+     */
+    public function getGroupList($excludeArchived = true)
+    {
+        $response = $this->guzzle->get("groups.list?exclude_archived=".($excludeArchived ? '1' : '0'));
+        if ($response->json()['ok'])
+            return $response->json()['groups'];
+        throw new SlackException($response->json()['error']);
+    }
+
+    /**
+     * @param bool $excludeArchived
+     *
+     * @return mixed
+     * @throws SlackException
+     */
+    public function getChannelList($excludeArchived = true)
+    {
+        $response = $this->guzzle->get("channels.list?exclude_archived=".($excludeArchived ? '1' : '0'));
+        if ($response->json()['ok'])
+            return $response->json()['channels'];
         throw new SlackException($response->json()['error']);
     }
 }
