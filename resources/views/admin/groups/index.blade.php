@@ -15,6 +15,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Owners</th>
+                                    <th>Channels</th>
                                 </tr>
                                 </thead>
                             @foreach ($groups as $group)
@@ -22,6 +23,13 @@
                                     <td>{{ $group->id }}</td>
                                     <td>{{ $group->name }}</td>
                                     <td>{{ $group->owners }}</td>
+                                    <td>
+
+                                        @foreach ($group->channels as $channel)
+                                            <div>{{ $channel->name }}</div>
+                                        @endforeach
+
+                                    </td>
                                 </tr>
                             @endforeach
                             </table>
