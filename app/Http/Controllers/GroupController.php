@@ -3,8 +3,8 @@
 use JamylBot\Group;
 use JamylBot\Http\Requests;
 use JamylBot\Http\Controllers\Controller;
+use JamylBot\User;
 
-use Illuminate\Http\Request;
 
 class GroupController extends Controller {
 
@@ -16,6 +16,14 @@ class GroupController extends Controller {
 	public function index()
 	{
 		$groups = Group::all();
+        foreach ($groups as $group) {
+            $ownerNames = [];
+            $owners = $group->getOwners();
+            foreach ($owners as $owner) {
+                $ownerNames[] = User::find($owner)->char_name;
+            }
+            $group->owners = implode(', ', $ownerNames);
+        }
         return view('admin.groups.index', compact('groups'));
 	}
 
@@ -26,7 +34,7 @@ class GroupController extends Controller {
 	 */
 	public function create()
 	{
-		return view('admin.groups.add');
+		return view('admin.groups.create');
 	}
 
 	/**
@@ -36,7 +44,8 @@ class GroupController extends Controller {
 	 */
 	public function store()
 	{
-		//
+		Group::create(['name' => \Request::input('name'), 'owners' => \Auth::user()->id]);
+        return redirect('/admin/groups');
 	}
 
 	/**

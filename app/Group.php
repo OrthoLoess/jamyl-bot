@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model {
 
-	protected $fillable = ['name'];
+	protected $fillable = ['name', 'owners'];
 
     public function users()
     {
@@ -21,10 +21,13 @@ class Group extends Model {
         return explode(',', $this->owners);
     }
 
+    /**
+     * @param User $newOwner
+     */
     public function addOwner($newOwner)
     {
         $owners = $this->getOwners();
-        $owners[] = $newOwner;
+        $owners[] = $newOwner->id;
         $this->owners = implode(array_unique($owners));
         $this->save();
     }

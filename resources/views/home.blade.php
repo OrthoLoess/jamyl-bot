@@ -16,7 +16,9 @@
                             @if($slackName)
                                 <p>Your Slack username is {{ $slackName }}</p>
                             @else
-                                <p>Type '/register' on slack to continue.</p>
+                                <p>Check your email and follow the instructions to sign up.</p>
+                                <p>Once you are on slack, this system should notice within 5 minutes and give you
+                                    appropriate group access. You can speed this up by typing '/register' on slack.</p>
                             @endif
                             @else
                             <p>Enter your email address to receive a slack invite:</p>
@@ -28,7 +30,7 @@
                         @endif
                     @else
                         <p>You do not appear to have the correct standings on this character.</p>
-                        <p>Corp: {{ $corp }}, Alliance: {{ $alliance }}</p>
+                        <p>Corp: {{ $corp or 'API error. Try again in 5 minutes.'}}, Alliance: {{ $alliance or 'none' }}</p>
                         <p>If you have recently switched corps, then come back in an hour to see if the API has updated.</p>
                         <p>If you think this corp/alliance should have access, contact Zenith Bane regarding the access list.</p>
                     @endif

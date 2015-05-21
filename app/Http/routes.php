@@ -40,30 +40,32 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
 
     Route::post('portrait', 'CommandController@getPortrait');
 
-    Route::get('test', function (\JamylBot\Userbot\Userbot $bot) {
-        //return $api->checkCharacter('1124364023,');90274790
+    Route::resource('admin/groups', 'GroupController');
 
-        //dd(JamylBot\User::listNeedUpdateIds(10));
-        //$api->addToAffiliationQueue('1124364023', true);
-        //$api->addToAffiliationQueue('902747f905');
-        $bot->performUpdates();
-        //$api->sendQueuedCall();
+//    Route::get('test', function (\JamylBot\Userbot\Userbot $bot) {
+//        //return $api->checkCharacter('1124364023,');90274790
+//
+//        //dd(JamylBot\User::listNeedUpdateIds(10));
+//        //$api->addToAffiliationQueue('1124364023', true);
+//        //$api->addToAffiliationQueue('902747f905');
+//        $bot->performUpdates();
+//        //$api->sendQueuedCall();
+//
+//    });
 
-    });
+//    Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
+//        //$killbot->resetLastId();
+//        $killbot->cycleCorps();
+//        return 'done';
+//    });
 
-    Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
-        //$killbot->resetLastId();
-        $killbot->cycleCorps();
-        return 'done';
-    });
-
-    Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack) {
-        //return $slack->getUsers();//'G04G7KMFM');
-        //$slack->setActive('U04FM6218');
-        //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
-
-        return 'done';
-    });
+//    Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack) {
+//        //return $slack->getUsers();//'G04G7KMFM');
+//        //$slack->setActive('U04FM6218');
+//        //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
+//
+//        return 'done';
+//    });
 
 });
 
