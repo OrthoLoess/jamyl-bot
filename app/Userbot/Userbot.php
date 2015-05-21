@@ -210,6 +210,7 @@ class Userbot {
         $users = User::all();
         foreach ($users as $user) {
             $user->updateStatus();
+            $user->save();
         }
     }
 
