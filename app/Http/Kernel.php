@@ -27,6 +27,7 @@ class Kernel extends HttpKernel {
 		'auth' => 'JamylBot\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'JamylBot\Http\Middleware\RedirectIfAuthenticated',
+        'admin' => 'JamylBot\Http\Middleware\MustBeAdmin',
 	];
 
 }
