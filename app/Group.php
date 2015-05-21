@@ -37,4 +37,14 @@ class Group extends Model {
         return in_array($owner, $this->getOwners());
     }
 
+    public function isMemberBySlack($slack_id)
+    {
+        foreach ($this->users as $user){
+            if ($user->slack_id == $slack_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

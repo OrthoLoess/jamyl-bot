@@ -235,6 +235,32 @@ class Userbot {
         }
     }
 
+    public function manageChannel($channel)
+    {
+        $channelIds = [];
+        $channelUsers = $channel->is_group ? $this->slackMonkey->getUsersForGroup($channel->slack_id) : $this->slackMonkey->getUsersForChannel($channel->slack_id);
+        foreach ($channelUsers as $user) {
+
+            $channelIds[] = $user;
+            $hasAccess = false;
+            foreach ($channel->groups as $group) {
+                if ( $group->isMemberBySlack($user) ) {
+                    $hasAccess = true;
+                }
+            }
+            if (!$hasAccess && $user != config('slack.jamyl-id')) {
+                $channel->is_group ? $this->slackMonkey->kickFromGroup($user, $channel->slack_id) : $this->slackMonkey->kickFromChannel($user, $channel->slack_id);
+            }
+        }
+        foreach ($channel->groups as $group) {
+            foreach ($group->users as $jamylUser) {
+                if (!array_key_exists($jamylUser->slack_id, $channelIds)) {
+                    $channel->is_group ? $this->slackMonkey->addToGroup($jamylUser->slack_id, $channel->slack_id) : $this->slackMonkey->addToChannel($jamylUser->slack_id, $channel->slack_id);
+                }
+            }
+        }
+    }
+
     /**
      * @param int $nbBytes
      *
