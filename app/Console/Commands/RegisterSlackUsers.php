@@ -12,7 +12,7 @@ class RegisterSlackUsers extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'slack:register';
+	protected $name = 'jamyl:register';
 
 	/**
 	 * The console command description.

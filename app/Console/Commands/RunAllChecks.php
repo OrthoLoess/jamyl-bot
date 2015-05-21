@@ -5,40 +5,42 @@ use JamylBot\Userbot\Userbot;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class SetSlackInactives extends Command {
+class RunAllChecks extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'jamyl:inactives';
+	protected $name = 'jamyl:allchecks';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Checks all users, if they are not listed as neutral, blue or light blue, sets their slack account inactive.';
+	protected $description = 'Trigger API checks, then search for new slack users, then set inactives.';
 
-    /**
-     * Create a new command instance.
-     */
+	/**
+	 * Create a new command instance.
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-    /**
-     * Execute the console command.
-     *
-     * @param Userbot $userbot
-     *
-     * @return mixed
-     */
+	/**
+	 * Execute the console command.
+	 *
+	 * @return mixed
+	 */
 	public function fire(Userbot $userbot)
 	{
-		$userbot->setSlackInactives();
+        $userbot->performUpdates();
+        $userbot->linkSlackMembers();
+        $userbot->setSlackInactives();
 	}
 
 	/**

@@ -27,10 +27,8 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule)
 	{
 		//$schedule->command('inspire')->hourly();
-        $schedule->command('api:checks')->everyTenMinutes();
-        $schedule->command('slack:register')->everyFiveMinutes();
+        $schedule->command('jamyl:allchecks')->everyFiveMinutes();
         $schedule->command('killbot:fire')->everyFiveMinutes();
-        $schedule->command('slack:inactives')->everyFiveMinutes();
 	}
 
 }

@@ -12,7 +12,7 @@ class CheckApis extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'api:checks';
+	protected $name = 'jamyl:checkapis';
 
 	/**
 	 * The console command description.
