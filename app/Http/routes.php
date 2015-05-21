@@ -42,6 +42,8 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
 
     Route::resource('admin/groups', 'GroupController');
 
+    Route::controller('admin/users', 'UserController');
+
 //    Route::get('test', function (\JamylBot\Userbot\Userbot $bot) {
 //        //return $api->checkCharacter('1124364023,');90274790
 //

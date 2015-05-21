@@ -99,7 +99,10 @@ class GroupController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		Group::find($id)->delete();
+		$group = Group::find($id)->first();
+        $group->channels()->sync([]);
+        $group->users()->sync([]);
+        $group->delete();
         return redirect('/admin/groups');
 	}
 
