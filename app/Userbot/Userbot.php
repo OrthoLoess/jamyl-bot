@@ -101,7 +101,17 @@ class Userbot {
      */
     public function addEmail($user, $email)
     {
-        $this->slackMonkey->sendInvite($email, $user->char_name);
+        try {
+            $this->slackMonkey->sendInvite($email, $user->char_name);
+        } catch (SlackException $e) {
+            if ($e->getMessage() == 'already_in_team') {
+                $user->email = $email;
+                $user->save();
+                $this->linkSlackMembers();
+            } else {
+                throw $e;
+            }
+        }
         $user->email = $email;
         $user->save();
     }
