@@ -4,16 +4,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Group extends Model {
 
-	protected $fillable = ['name'];
+	protected $fillable = ['name', 'owners'];
 
     public function users()
     {
-        $this->belongsToMany('JamylBot\User');
+        return $this->belongsToMany('JamylBot\User');
     }
 
     public function channels()
     {
-        $this->belongsToMany('JamylBot\Channel');
+        return $this->belongsToMany('JamylBot\Channel');
     }
 
     public function getOwners()
@@ -21,17 +21,42 @@ class Group extends Model {
         return explode(',', $this->owners);
     }
 
+    public function setOwners($ownersArray)
+    {
+        $this->owners = implode(',', $ownersArray);
+    }
+
+    /**
+     * @param User $newOwner
+     */
     public function addOwner($newOwner)
     {
         $owners = $this->getOwners();
-        $owners[] = $newOwner;
+        $owners[] = $newOwner->id;
         $this->owners = implode(array_unique($owners));
         $this->save();
+    }
+
+    public function removeOwner($owner)
+    {
+        $owners = $this->getOwners();
+        $owners = array_diff($owners, [$owner]);
+        $this->setOwners($owners);
     }
 
     public function isOwner($owner)
     {
         return in_array($owner, $this->getOwners());
+    }
+
+    public function isMemberBySlack($slack_id)
+    {
+        foreach ($this->users as $user){
+            if ($user->slack_id == $slack_id) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

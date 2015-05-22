@@ -26,4 +26,13 @@ return [
         '/portrait' => env('SLACK_PORTRAIT_TOKEN'),
     ],
 
+    'cache-time' => 5,
+
+    'jamyl-id' => 'U04JN1L0C',
+
+    'channels-to-manage' => [
+//        'G04FM566L',    // api_test
+        'G04V6HSHC',    // group_test
+    ],
+
 ];

@@ -40,29 +40,16 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
 
     Route::post('portrait', 'CommandController@getPortrait');
 
-    Route::get('test', function (\JamylBot\Userbot\Userbot $bot) {
-        //return $api->checkCharacter('1124364023,');90274790
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
-        //dd(JamylBot\User::listNeedUpdateIds(10));
-        //$api->addToAffiliationQueue('1124364023', true);
-        //$api->addToAffiliationQueue('902747f905');
-        $bot->performUpdates();
-        //$api->sendQueuedCall();
+        Route::resource('groups', 'GroupController');
+        Route::post('groups/{groupId}/add-user', 'GroupController@addUserToGroup')->where(['groupId' => '[0-9]+']);
+        Route::post('groups/{groupId}/remove-user', 'GroupController@removeUserFromGroup')->where(['groupId' => '[0-9]+']);
+        Route::post('groups/{groupId}/add-channel', 'GroupController@addChannelToGroup')->where(['groupId' => '[0-9]+']);
+        Route::post('groups/{groupId}/remove-channel', 'GroupController@removeChannelFromGroup')->where(['groupId' => '[0-9]+']);
 
-    });
+        Route::controller('users', 'UserController');
 
-    Route::get('killbot', function (\JamylBot\Killbot\Killbot $killbot) {
-        //$killbot->resetLastId();
-        $killbot->cycleCorps();
-        return 'done';
-    });
-
-    Route::get('slack', function (\JamylBot\Userbot\SlackMonkey $slack) {
-        //return $slack->getUsers();//'G04G7KMFM');
-        //$slack->setActive('U04FM6218');
-        //$slack->sendInvite('mail@ratship.net', 'Trevor Kipling', ['C04G7GNLT']);
-
-        return 'done';
     });
 
 });
