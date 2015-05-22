@@ -20,7 +20,7 @@ return [
 
     'token-expression' => '/api_token: \'([a-zA-Z0-9-]*)\'/',
 
-    'auto-join-channels' => ['C04G7GNLT'],
+    'auto-join-channels' => ['C04G7GNLT', 'C050GQPC0'],
 
     'command-tokens' => [
         '/portrait' => env('SLACK_PORTRAIT_TOKEN'),
