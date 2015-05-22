@@ -39,7 +39,7 @@ class MustBeAdmin {
             }
             else
             {
-                return redirect()->back()->with('auth_message', 'Access Denied');
+                return redirect('/home')->with('auth_message', 'Access Denied');
             }
         }
 

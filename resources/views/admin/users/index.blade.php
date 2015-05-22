@@ -26,7 +26,8 @@
                                         <td>{{ $user->slack_name }}</td>
                                         <td>
                                             @unless ($user->admin)
-                                                {!! Form::open(['action' => ['UserController@deleteIndex', 'id' => $user->id], 'method' => 'delete']) !!}
+                                                {!! Form::open(['action' => ['UserController@deleteIndex'], 'method' => 'delete']) !!}
+                                                {!! Form::hidden('user_id', $user->id) !!}
                                                 {!! Form::submit('Delete') !!}
                                                 {!! Form::close() !!}
                                             @endunless

@@ -18,9 +18,9 @@ class UserController extends Controller {
 
     public function deleteIndex()
     {
-        $id = \Request::input('id');
         // Delete user $id
-        $user = User::find($id)->first();
+        $id = \Request::input('user_id');
+        $user = User::find($id);
         $user->groups()->sync([]);
         $user->delete();
         return redirect('/admin/users');
