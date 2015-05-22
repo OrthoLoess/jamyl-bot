@@ -21,6 +21,11 @@ class Group extends Model {
         return explode(',', $this->owners);
     }
 
+    public function setOwners($ownersArray)
+    {
+        $this->owners = implode(',', $ownersArray);
+    }
+
     /**
      * @param User $newOwner
      */
@@ -30,6 +35,13 @@ class Group extends Model {
         $owners[] = $newOwner->id;
         $this->owners = implode(array_unique($owners));
         $this->save();
+    }
+
+    public function removeOwner($owner)
+    {
+        $owners = $this->getOwners();
+        $owners = array_diff($owners, [$owner]);
+        $this->setOwners($owners);
     }
 
     public function isOwner($owner)

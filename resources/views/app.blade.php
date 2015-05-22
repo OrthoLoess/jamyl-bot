@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 	<title>JamylBot</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
@@ -34,6 +35,10 @@
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="{{ url('/') }}">Home</a></li>
+                    @if (\Auth::user()->admin)
+                        <li><a href="{{ url('admin/groups') }}">Group admin</a></li>
+                        <li><a href="{{ url('admin/users') }}">User admin</a></li>
+                    @endif
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

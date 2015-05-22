@@ -20,7 +20,13 @@ class GroupController extends Controller {
             $ownerNames = [];
             $owners = $group->getOwners();
             foreach ($owners as $owner) {
-                $ownerNames[] = User::find($owner)->char_name;
+                /** @var User $user */
+                $user = User::find($owner);
+                if ($user != null) {
+                    $ownerNames[] = $user->char_name;
+                } else {
+                    $group->removeOwner($owner);
+                }
             }
             $group->owners = implode(', ', $ownerNames);
         }
@@ -61,11 +67,20 @@ class GroupController extends Controller {
         if ($group == null) {
             abort(404);
         }
+        $otherUsers = User::all();
+        $menuUsers = [];
+        foreach ($group->users as $user) {
+            $otherUsers = $otherUsers->except($user->id);
+        }
+        foreach ($otherUsers as $user) {
+            $menuUsers[$user->id] = $user->char_name;
+        }
         return view('admin.groups.show', [
             'id'    => $group->id,
             'name'  => $group->name,
             'channels'  => $group->channels,
             'users'     => $group->users,
+            'menuUsers' => $menuUsers,
         ]);
 	}
 
@@ -105,5 +120,19 @@ class GroupController extends Controller {
         $group->delete();
         return redirect('/admin/groups');
 	}
+
+    public function addUserToGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->users()->attach(\Request::input('user'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function removeUserFromGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->users()->detach(\Request::input('user'));
+        return redirect('/admin/groups/'.$groupId);
+    }
 
 }
