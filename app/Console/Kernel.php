@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel {
         'JamylBot\Console\Commands\RunAllChecks',
         'JamylBot\Console\Commands\ReadStandings',
         'JamylBot\Console\Commands\GetSlackChannels',
+        'JamylBot\Console\Commands\ManageChannels',
 	];
 
 	/**

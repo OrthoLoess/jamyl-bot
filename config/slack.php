@@ -30,4 +30,9 @@ return [
 
     'jamyl-id' => 'U04JN1L0C',
 
+    'channels-to-manage' => [
+//        'G04FM566L',    // api_test
+        'G04V6HSHC',    // group_test
+    ],
+
 ];

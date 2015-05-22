@@ -1,25 +1,26 @@
 <?php namespace JamylBot\Console\Commands;
 
 use Illuminate\Console\Command;
+use JamylBot\Channel;
 use JamylBot\Userbot\Userbot;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class GetSlackChannels extends Command {
+class ManageChannels extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'jamyl:getchannels';
+	protected $name = 'jamyl:manage';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Pull channel and group lists from slack and add new to DB';
+	protected $description = 'Sets channel memberships on slack to match groups';
 
 	/**
 	 * Create a new command instance.
@@ -37,7 +38,10 @@ class GetSlackChannels extends Command {
 	 */
 	public function fire(Userbot $userbot)
 	{
-		$userbot->getNewChannels();
+		foreach (config('slack.channels-to-manage') as $channelId) {
+            $channel = Channel::findBySlackId($channelId);
+            $userbot->manageChannel($channel);
+        }
 	}
 
 	/**
