@@ -110,7 +110,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function hasAccess()
     {
-        if ($this->status == 'holder' || $this->status == 'blue') {
+        if ($this->status == 'holder' || $this->status == 'blue' || $this->status == 'light-blue') {
             return true;
         }
         return false;
