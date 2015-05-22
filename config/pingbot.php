@@ -68,4 +68,12 @@ return [
         ],
     ],
 
+    'help-text' => "The ping bot is now multi-function!\n"
+        ."Usage: /ping <type> [message]\n"
+        ."Available types:\n"
+        ."all - Sends ping to chatadel, goes to all registered users.\n"
+        ."fc - Sends ping to p_fc_pings.\n"
+        ."titan - Sends ping to the titan channel. Use this to request a bridge.\n"
+        ."capfc - Sends ping to cap_fcs channel. Use to request cap support.",
+
 ];

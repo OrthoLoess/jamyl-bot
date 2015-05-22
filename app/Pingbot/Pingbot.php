@@ -110,12 +110,7 @@ class Pingbot {
      */
     protected function makeHelpText()
     {
-        return "The ping bot is now multi-function!\n"
-            ."Usage: /ping <type> [message]\n"
-            ."Available types:\n"
-            ."fc - Sends ping to p_fc_pings.\n"
-            ."titan - Sends ping to the titan channel. Use this to request a bridge.\n"
-            ."capfc - Sends ping to cap_fcs channel. Use to request cap support.";
+        return config('pingbot.help-text');
     }
 
     /**
