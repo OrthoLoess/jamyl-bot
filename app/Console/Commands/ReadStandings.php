@@ -19,7 +19,7 @@ class ReadStandings extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description.';
+	protected $description = 'Read changes to standings into app and update.';
 
 	/**
 	 * Create a new command instance.
