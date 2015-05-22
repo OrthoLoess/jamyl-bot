@@ -60,7 +60,7 @@ return [
             'announce'      => false
         ],
         'all' => [
-            'destination'   => '#chatadel',
+            'destination'   => '#p-fleet',
             'title'         => 'Ping',
             'pre-text'      => "",
             'color'         => '#439FE0',
