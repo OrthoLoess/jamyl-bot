@@ -145,4 +145,10 @@ class ApiMonkey {
         $result = $this->pheal->eveScope->TypeName(['ids' => $typeId]);
         return $result->types[0]->typeName;
     }
+
+    public function getCharName($id)
+    {
+        $result = $this->pheal->eveScope->CharacterAffiliation(['ids' => $id]);
+        return $result->characters[0]->characterName;
+    }
 }
