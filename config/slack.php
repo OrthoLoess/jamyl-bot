@@ -36,6 +36,8 @@ return [
         'G04G7KMFM',    // p_fc_chat
         'G04G7KRUD',    // p_fc_pings
         'G04GC8QMX',    // titan_pings
+        'G04HPDE74',    // cap_fcs
+        'G04QGUA5H',    // p_scouts
     ],
 
 ];
