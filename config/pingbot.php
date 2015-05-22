@@ -59,6 +59,13 @@ return [
             'color'         => '#439FE0',
             'announce'      => false
         ],
+        'all' => [
+            'destination'   => '#chatadel',
+            'title'         => 'Ping',
+            'pre-text'      => "",
+            'color'         => '#439FE0',
+            'announce'      => false
+        ],
     ],
 
 ];
