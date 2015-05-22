@@ -250,10 +250,10 @@ class Userbot {
         $channelIds = [];
         $channelUsers = $channel->is_group ? $this->slackMonkey->getUsersForGroup($channel->slack_id) : $this->slackMonkey->getUsersForChannel($channel->slack_id);
         foreach ($channelUsers as $user) {
-
             $channelIds[] = $user;
             $hasAccess = false;
             foreach ($channel->groups as $group) {
+                /** @var \JamylBot\Group $group */
                 if ( $group->isMemberBySlack($user) ) {
                     $hasAccess = true;
                 }
@@ -264,7 +264,7 @@ class Userbot {
         }
         foreach ($channel->groups as $group) {
             foreach ($group->users as $jamylUser) {
-                if (!array_key_exists($jamylUser->slack_id, $channelIds)) {
+                if (!array_key_exists($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
                     $channel->is_group ? $this->slackMonkey->addToGroup($jamylUser->slack_id, $channel->slack_id) : $this->slackMonkey->addToChannel($jamylUser->slack_id, $channel->slack_id);
                 }
             }

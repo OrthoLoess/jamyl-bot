@@ -52,7 +52,8 @@ class Group extends Model {
     public function isMemberBySlack($slack_id)
     {
         foreach ($this->users as $user){
-            if ($user->slack_id == $slack_id) {
+            /** @var User $user */
+            if ($user->slack_id != null && $user->slack_id == $slack_id && $user->hasAccess()) {
                 return true;
             }
         }
