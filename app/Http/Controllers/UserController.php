@@ -29,7 +29,7 @@ class UserController extends Controller {
     public function getPending()
     {
         // List users who have entered an email but have not registered on slack.
-        $users = User::where();
+        //$users = User::where();
     }
 
 }

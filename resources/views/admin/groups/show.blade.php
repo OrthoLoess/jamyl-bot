@@ -21,8 +21,20 @@
                                     <td>Linked Channels</td>
                                     <td>
                                         @foreach ($channels as $channel)
-                                            <div>{{ $channel->name }}</div>
+                                            <div>
+                                                {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-channel']) !!}
+                                                {{ $channel->name }}
+                                                {!! Form::hidden('channel', $channel->id) !!}
+                                                {!! Form::submit('Remove') !!}
+                                                {!! Form::close() !!}
+                                            </div>
                                         @endforeach
+                                        <div>
+                                            {!! Form::open(['url' => 'admin/groups/'.$id.'/add-channel']) !!}
+                                            {!! Form::select('channel', $menuChannels) !!}
+                                            {!! Form::submit('Add channel') !!}
+                                            {!! Form::close() !!}
+                                        </div>
                                     </td>
                                 </tr>
                             </table>

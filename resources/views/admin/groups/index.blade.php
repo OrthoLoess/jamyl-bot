@@ -21,7 +21,7 @@
                             @foreach ($groups as $group)
                                 <tr>
                                     <td>{{ $group->id }}</td>
-                                    <td>{{ $group->name }}</td>
+                                    <td><a href="groups/{{ $group->id }}">{{ $group->name }}</a></td>
                                     <td>{{ $group->owners }}</td>
                                     <td>
                                         @foreach ($group->channels as $channel)

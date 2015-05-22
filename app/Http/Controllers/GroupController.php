@@ -1,5 +1,6 @@
 <?php namespace JamylBot\Http\Controllers;
 
+use JamylBot\Channel;
 use JamylBot\Group;
 use JamylBot\Http\Requests;
 use JamylBot\Http\Controllers\Controller;
@@ -75,12 +76,23 @@ class GroupController extends Controller {
         foreach ($otherUsers as $user) {
             $menuUsers[$user->id] = $user->char_name;
         }
+
+        $otherChannels = Channel::all();
+        $menuChannels = [];
+        foreach ($group->channels as $channel) {
+            $otherChannels = $otherChannels->except($channel->id);
+        }
+        foreach ($otherChannels as $channel) {
+            $menuChannels[$channel->id] = $channel->name;
+        }
+
         return view('admin.groups.show', [
             'id'    => $group->id,
             'name'  => $group->name,
             'channels'  => $group->channels,
             'users'     => $group->users,
             'menuUsers' => $menuUsers,
+            'menuChannels' => $menuChannels,
         ]);
 	}
 
@@ -132,6 +144,20 @@ class GroupController extends Controller {
     {
         $group = Group::find($groupId);
         $group->users()->detach(\Request::input('user'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function addChannelToGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->channels()->attach(\Request::input('channel'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function removeChannelFromGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->channels()->detach(\Request::input('channel'));
         return redirect('/admin/groups/'.$groupId);
     }
 

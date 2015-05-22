@@ -25,9 +25,11 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->slack_name }}</td>
                                         <td>
-                                            {!! Form::open(['action' => ['UserController@deleteIndex', 'id' => $user->id], 'method' => 'delete']) !!}
-                                            {!! Form::submit('Delete') !!}
-                                            {!! Form::close() !!}
+                                            @unless ($user->admin)
+                                                {!! Form::open(['action' => ['UserController@deleteIndex', 'id' => $user->id], 'method' => 'delete']) !!}
+                                                {!! Form::submit('Delete') !!}
+                                                {!! Form::close() !!}
+                                            @endunless
                                         </td>
                                     </tr>
                                 @endforeach
