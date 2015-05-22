@@ -31,8 +31,11 @@ return [
     'jamyl-id' => 'U04JN1L0C',
 
     'channels-to-manage' => [
-//        'G04FM566L',    // api_test
+        'G04FM566L',    // api_test
         'G04V6HSHC',    // group_test
+        'G04G7KMFM',    // p_fc_chat
+        'G04G7KRUD',    // p_fc_pings
+        'G04GC8QMX',    // titan_pings
     ],
 
 ];
