@@ -45,7 +45,12 @@ class Killbot {
                     $last = $kill['killID'];
                 }
                 if (count($kill['attackers']) == 1) {
-                    $this->sendSoloKill($kill, $corp);
+                    if ( 
+                        !in_array($kill['victim']['shipTypeID'],config('killbot.capsule_type_ids')) || 
+                        $kill['zkb']['totalValue'] > config('killbot.min_capsule_value') 
+                    ) {
+                        $this->sendSoloKill($kill, $corp);
+                    }
                 }
                 elseif ($kill['zkb']['totalValue'] > config('killbot.min_value')) {
                     $this->sendKill($kill, $corp);
