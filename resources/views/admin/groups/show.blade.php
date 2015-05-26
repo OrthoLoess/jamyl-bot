@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-sm-6">
                             {!! Form::open(['url' => 'admin/groups/'.$id.'/add-user', 'class' => 'add-user-form']) !!}
-                            {!! Form::select('user', $menuUsers) !!}
+                            {!! Form::select('user', array(''=>'Select user')+$menuUsers, null) !!}
                             {!! Form::submit('Add user') !!}
                             {!! Form::close() !!}
                         </div>
