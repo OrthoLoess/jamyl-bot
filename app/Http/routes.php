@@ -35,10 +35,10 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
     Route::post('registerslack', function (Request $request, \JamylBot\Userbot\Userbot $userbot) {
         return $userbot->registerSlack($request->all());
     });
+    Route::post('portrait', 'CommandController@getPortrait');
+    Route::post('command', 'CommandController@chooseCommand');
 
     Route::post('form/addEmail', 'HomeController@addEmail');
-
-    Route::post('portrait', 'CommandController@getPortrait');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 

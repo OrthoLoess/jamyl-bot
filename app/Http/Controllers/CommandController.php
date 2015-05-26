@@ -26,8 +26,9 @@ class CommandController extends Controller {
 	 */
 	public function getPortrait()
 	{
-        if (!$this->checkToken())
+        if (!$this->checkToken()) {
             return 'Authentication error';
+        }
         try {
             $user = User::findBySlack($this->requestVars['user_id']);
         } catch (ModelNotFoundException $e) {
@@ -48,6 +49,32 @@ class CommandController extends Controller {
         $this->slack->sendMessageToServer($payload);
         return "Portrait link sent to slackbot DM channel \n".$link;
 	}
+
+    protected function punkBirthday()
+    {
+        $payload = [
+            'channel' => 'p-drama',
+            'username' => config('pingbot.ping-bot-name'),
+            'icon_emoji' => config('pingbot.ping-bot-emoji'),
+            'text' => 'HAPPY BIRTHDAY @punkslap',
+            'link_names' => 1,
+        ];
+        $this->slack->sendMessageToServer($payload);
+        return "Punk'd";
+    }
+
+    public function chooseCommand()
+    {
+        if (!$this->checkToken()) {
+            return 'Authentication error';
+        }
+        switch ($this->requestVars['command']) {
+            case '/punk':
+                return $this->punkBirthday();
+            default:
+                return 'Unknown command';
+        }
+    }
 
     /**
      * @return bool

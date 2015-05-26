@@ -10,6 +10,7 @@ class VerifyCsrfToken extends BaseVerifier {
             'sendping',
             'registerslack',
             'portrait',
+            'command',
         ];
 
     /**

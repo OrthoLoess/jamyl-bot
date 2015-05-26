@@ -24,6 +24,7 @@ return [
 
     'command-tokens' => [
         '/portrait' => env('SLACK_PORTRAIT_TOKEN'),
+        '/punk'     => env('SLACK_PUNK_TOKEN'),
     ],
 
     'cache-time' => 5,
