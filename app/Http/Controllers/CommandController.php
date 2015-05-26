@@ -53,7 +53,7 @@ class CommandController extends Controller {
     protected function punkBirthday()
     {
         $payload = [
-            'channel' => 'p-drama',
+            'channel' => '#p-drama',
             'username' => config('pingbot.ping-bot-name'),
             'icon_emoji' => config('pingbot.ping-bot-emoji'),
             'text' => 'HAPPY BIRTHDAY @punkslap',
