@@ -39,6 +39,7 @@ return [
         'G04GC8QMX',    // titan_pings
         'G04HPDE74',    // cap_fcs
         'G04QGUA5H',    // p_scouts
+        'G04N41BB8',    // profidence
     ],
 
 ];
