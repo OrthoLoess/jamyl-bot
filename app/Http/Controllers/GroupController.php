@@ -137,6 +137,22 @@ class GroupController extends Controller {
     {
         $group = Group::find($groupId);
         $group->users()->attach(\Request::input('user'));
+
+        /*
+            Ajax code added in controller, but not in Javascript.
+            Debating whether it is appropriate to use Ajax in this case.
+        */
+        if (\Request::ajax()) {
+            $user = User::find(input('user'));
+            return \Response::json(array(
+                'status' => 'ok',
+                'user'   => array(
+                    'id'       => $user->id,
+                    'charname' => $user->char_name,
+                    'email'    => $user->email
+                )
+            ));
+        }
         return redirect('/admin/groups/'.$groupId);
     }
 
@@ -144,6 +160,9 @@ class GroupController extends Controller {
     {
         $group = Group::find($groupId);
         $group->users()->detach(\Request::input('user'));
+        if (\Request::ajax()) {
+            return \Response::json(array('status' => 'ok'));
+        }
         return redirect('/admin/groups/'.$groupId);
     }
 

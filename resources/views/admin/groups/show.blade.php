@@ -40,7 +40,7 @@
                             </table>
                         </div>
                         <div class="col-sm-6">
-                            {!! Form::open(['url' => 'admin/groups/'.$id.'/add-user']) !!}
+                            {!! Form::open(['url' => 'admin/groups/'.$id.'/add-user', 'class' => 'add-user-form']) !!}
                             {!! Form::select('user', $menuUsers) !!}
                             {!! Form::submit('Add user') !!}
                             {!! Form::close() !!}
@@ -58,11 +58,11 @@
                                 </thead>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->char_name }}</td>
-                                        <td>{{ $user->email }}</td>
+                                        <td class="user-id">{{ $user->id }}</td>
+                                        <td class="char-name">{{ $user->char_name }}</td>
+                                        <td class="user-email">{{ $user->email }}</td>
                                         <td>
-                                            {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-user']) !!}
+                                            {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-user', 'class' => 'user-action-form']) !!}
                                             {!! Form::hidden('user', $user->id) !!}
                                             {!! Form::submit('Remove') !!}
                                             {!! Form::close() !!}
