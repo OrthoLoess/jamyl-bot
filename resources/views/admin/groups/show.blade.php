@@ -45,6 +45,40 @@
                             {!! Form::submit('Add user') !!}
                             {!! Form::close() !!}
                         </div>
+                        <p>&nbsp;</p>
+                        @if ($admin)
+                        <h5><a href="#" id="addOwner">Add Owner:</a></h5>
+                        <div class="col-sm-6" style="display: none" id="add-owner-form-div">
+                            {!! Form::open(['url' => 'admin/groups/'.$id.'/add-owner', 'class' => 'add-owner-form']) !!}
+                            {!! Form::select('owner', array(''=>'Select user')+$menuOwners, null, array('class' => 'form-control')) !!}
+                            {!! Form::submit('Add owner') !!}
+                            {!! Form::close() !!}
+                        </div>
+                        @endif
+                        @if ($admin && count($owners))
+                            <h4 class="col-sm-8">Group Owners</h4>
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Char Name</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                                </thead>
+                                @foreach ($owners as $owner)
+                                    <tr>
+                                        <td class="user-id">{{ $owner->id }}</td>
+                                        <td class="char-name">{{ $owner->char_name }}</td>
+                                        <td>
+                                            {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-owner', 'class' => 'owner-action-form']) !!}
+                                            {!! Form::hidden('owner', $owner->id) !!}
+                                            {!! Form::submit('Remove owner') !!}
+                                            {!! Form::close() !!}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        @endif
                         <h4 class="col-sm-8">Members</h4>
                         @if (count($users))
                             <table class="table table-striped table-condensed">

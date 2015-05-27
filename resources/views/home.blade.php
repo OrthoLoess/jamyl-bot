@@ -15,6 +15,17 @@
                             <p>Your registered email address is {{ $email }}</p>
                             @if($slackName)
                                 <p>Your Slack username is {{ $slackName }}</p>
+                                <p>&nbsp;</p>
+                                @if($groups && count($groups))
+                                    <h4>You have admin rights on the following groups:</h4>
+                                    <table class="table">
+                                        @foreach($groups as $group)
+                                            <tr>
+                                                <td><a href="/admin/groups/{{$group->id}}">{{ $group->name }}</a></td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                @endif
                             @else
                                 <p>Check your email and follow the instructions to sign up.</p>
                                 <p>Once you are on slack, this system should notice within 5 minutes and give you

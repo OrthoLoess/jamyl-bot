@@ -24,16 +24,17 @@ class Group extends Model {
     public function setOwners($ownersArray)
     {
         $this->owners = implode(',', $ownersArray);
+        $this->save();
     }
 
     /**
-     * @param User $newOwner
+     * @param int $newOwner
      */
     public function addOwner($newOwner)
     {
         $owners = $this->getOwners();
-        $owners[] = $newOwner->id;
-        $this->owners = implode(array_unique($owners));
+        $owners[] = $newOwner;
+        $this->owners = implode(',', array_unique($owners));
         $this->save();
     }
 
