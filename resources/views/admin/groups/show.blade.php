@@ -46,6 +46,7 @@
                             {!! Form::close() !!}
                         </div>
                         <p>&nbsp;</p>
+                        @if ($admin)
                         <h5><a href="#" id="addOwner">Add Owner:</a></h5>
                         <div class="col-sm-6" style="display: none" id="add-owner-form-div">
                             {!! Form::open(['url' => 'admin/groups/'.$id.'/add-owner', 'class' => 'add-owner-form']) !!}
@@ -53,7 +54,8 @@
                             {!! Form::submit('Add owner') !!}
                             {!! Form::close() !!}
                         </div>
-                        @if (count($owners))
+                        @endif
+                        @if ($admin && count($owners))
                             <h4 class="col-sm-8">Group Owners</h4>
                             <table class="table table-striped table-condensed">
                                 <thead>
