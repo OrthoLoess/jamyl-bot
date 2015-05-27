@@ -1,8 +1,14 @@
-$(function(){
+$(document).ready(function(){
 	/* Group Admin Page */
 
 	/* Searchable Dropdown Box */
 	$("form.add-user-form").children("select").combobox();
+    $("form.add-owner-form").children("select").combobox();
+
+    $("#addOwner").on('click', function(e){
+        e.preventDefault();
+        $("#add-owner-form-div").show();
+    });
 
 	/* Deleting Users AJAX */
 	$("form.user-action-form").submit(function(e){
@@ -20,8 +26,7 @@ $(function(){
 						$("<option></option>")
 							.val($(this).children(".user-id").text())
 							.html($(this).children(".char-name").text())
-					);
-					$("form.add-user-form select").combobox('refresh');
+					).combobox('refresh');
 					$(this).remove();
 				});
 			}

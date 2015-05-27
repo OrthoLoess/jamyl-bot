@@ -86,6 +86,21 @@ class GroupController extends Controller {
             $menuChannels[$channel->id] = $channel->name;
         }
 
+        $notOwners = User::all();
+        $menuOwners = [];
+        $owners = [];
+        foreach ($group->getOwners() as $ownerId) {
+            if ($owner = User::find($ownerId)) {
+                $owners[] = $owner;
+                $notOwners = $notOwners->except($ownerId);
+            } else {
+                $group->removeOwner($ownerId);
+            }
+        }
+        foreach ($notOwners as $owner) {
+            $menuOwners[$owner->id] = $owner->char_name;
+        }
+
         return view('admin.groups.show', [
             'id'    => $group->id,
             'name'  => $group->name,
@@ -93,6 +108,9 @@ class GroupController extends Controller {
             'users'     => $group->users,
             'menuUsers' => $menuUsers,
             'menuChannels' => $menuChannels,
+            'admin'     => \Auth::user()->admin,
+            'owners'    => $owners,
+            'menuOwners'  => $menuOwners,
         ]);
 	}
 
@@ -177,6 +195,22 @@ class GroupController extends Controller {
     {
         $group = Group::find($groupId);
         $group->channels()->detach(\Request::input('channel'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function addOwnerToGroup($groupId)
+    {
+        /** @var Group $group */
+        $group = Group::find($groupId);
+        $group->addOwner(\Request::input('owner'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function removeOwnerFromGroup($groupId)
+    {
+        /** @var Group $group */
+        $group = Group::find($groupId);
+        $group->removeOwner(\Request::input('owner'));
         return redirect('/admin/groups/'.$groupId);
     }
 
