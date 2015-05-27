@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
+use JamylBot\Group;
 use JamylBot\Userbot\Userbot;
 
 class HomeController extends Controller {
@@ -18,6 +19,7 @@ class HomeController extends Controller {
 	*/
 
     protected $userbot;
+    /** @var \JamylBot\User $user */
     protected $user;
 
 	/**
@@ -39,6 +41,13 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+        $groups = [];
+        /** @var Group $group */
+        foreach (Group::all() as $group) {
+            if ($group->isOwner($this->user->id)) {
+                $groups[] = $group;
+            }
+        }
 		return view('home', [
             'name' => $this->user->char_name,
             'avatar' => $this->user->getAvatarUrl(),
@@ -48,13 +57,13 @@ class HomeController extends Controller {
             'corp' => $this->user->corp_name,
             'alliance' => $this->user->alliance_name,
             'charId' => $this->user->char_id,
+            'groups' => $groups,
         ]);
 	}
 
     public function addEmail(Request $request)
     {
         $email = $request->input('email');
-        //dd($email);
         $this->userbot->addEmail($this->user, $email);
         return redirect('home');
     }
