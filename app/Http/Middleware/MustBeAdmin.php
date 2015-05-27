@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use JamylBot\Group;
 
 class MustBeAdmin {
 
@@ -30,20 +31,35 @@ class MustBeAdmin {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next)
-	{
-        if ($this->auth->guest() || !$this->auth->user()->admin)
-        {
-            if ($request->ajax())
-            {
+    {
+        if ($this->auth->guest()) {
+            if ($request->ajax()) {
                 return response('Unauthorized.', 401);
+            } else {
+                return redirect('/home')->with('auth_message', 'Must be logged in.');
             }
-            else
-            {
-                return redirect('/home')->with('auth_message', 'Access Denied');
+        }
+        /** @var \JamylBot\User $user */
+        $user = $this->auth->user();
+        if ($user->admin) {
+            return $next($request);
+        }
+        $groupId = $request->groupId ? $request->groupId : $request->groups;
+        if ($groupId) {
+            /** @var Group $group */
+            $group = Group::find($groupId);
+            if ($group->isOwner($user->id)) {
+                return $next($request);
             }
         }
 
-		return $next($request);
-	}
+        if ($request->ajax()) {
+            return response('Unauthorized.', 401);
+        } else {
+            return redirect('/home')->with('auth_message', 'Access Denied');
+        }
+
+
+    }
 
 }
