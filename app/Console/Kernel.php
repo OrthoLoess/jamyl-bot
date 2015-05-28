@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel {
         $schedule->command('jamyl:firekillbot')->everyFiveMinutes();
         $schedule->command('jamyl:manage')->everyFiveMinutes();
         $schedule->command('jamyl:getchannels')->Hourly();
-        $schedule->command('lamyl:punk')->dailyAt('10:05');
+        $schedule->command('jamyl:punk')->dailyAt('10:05');
 	}
 
 }
