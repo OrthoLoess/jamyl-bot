@@ -17,9 +17,7 @@ return [
     'post-url' => env('SLACK_POST_URL'),
 
     'slash-hashes' => [
-        'fcping'    => env('FCPING_HASH'),
-        'titanping' => env('TITANPING_HASH'),
-        'ping'      => env('PING_HASH')
+        'ping'      => env('PING_TOKEN')
     ],
 
     'ping-allowed-channels' => [

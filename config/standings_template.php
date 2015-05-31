@@ -13,7 +13,7 @@ return [
 
     'holders' => [
         'alliances' => [
-            //
+            '1988009451',   // CVA (example) - This is simply the ID of the alliance.
         ],
     ],
 
