@@ -195,7 +195,7 @@ class Pingbot {
             return false;
         }
 
-        if (!in_array($requestVars['token'], config('pingbot.slash-hashes')))
+        if ($requestVars['token'] != config('pingbot.command-hash'))
         {
             $this->returnMessage = 'Invalid token, are you trying to access from outside of Slack?';
             return false;

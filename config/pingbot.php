@@ -11,14 +11,12 @@ return [
     |
     */
 
-    'api-url'   => '',
-    'api-token' => env('SLACK_API_TOKEN'),
+    'api-url'               => '',
+    'api-token'             => env('SLACK_API_TOKEN'),
 
-    'post-url' => env('SLACK_POST_URL'),
+    'post-url'              => env('SLACK_POST_URL'),
 
-    'slash-hashes' => [
-        'ping'      => env('PING_TOKEN')
-    ],
+    'command-hash'          => env('PING_TOKEN'),
 
     'ping-allowed-channels' => [
         'G04G7KMFM'     // Specific to a given slack team
