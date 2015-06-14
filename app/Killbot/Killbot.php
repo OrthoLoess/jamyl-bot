@@ -94,6 +94,7 @@ class Killbot {
                             'short'     => true
                         ],
                     ],
+                    'thumb_url' => config('killbot.ship_renders').$kill['victim']['shipTypeID']."_256.png",
                 ],
             ],
         ];
@@ -124,6 +125,7 @@ class Killbot {
                             'short'     => true
                         ],
                     ],
+                    'thumb_url' => config('killbot.ship_renders').$kill['victim']['shipTypeID']."_256.png",
                 ],
             ],
         ];
