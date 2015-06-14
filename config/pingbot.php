@@ -19,7 +19,8 @@ return [
     'command-hash'          => env('PING_TOKEN'),
 
     'ping-allowed-channels' => [
-        'G04G7KMFM'     // Specific to a given slack team
+        'G04G7KMFM',    // p_fc_chat (Specific to a given slack team)
+        'G04HPDE74',    // cap_fcs
     ],
     'ping-announce-channel' => 'p_fc_chat',
 
@@ -58,6 +59,13 @@ return [
         'all' => [
             'destination'   => '#p-fleet',
             'title'         => 'Ping',
+            'pre-text'      => "",
+            'color'         => '#439FE0',
+            'announce'      => false
+        ],
+        'profidence' => [
+            'destination'   => 'profidence',
+            'title'         => 'Cap ping',
             'pre-text'      => "",
             'color'         => '#439FE0',
             'announce'      => false
