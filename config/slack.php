@@ -40,6 +40,7 @@ return [
         'G04HPDE74',    // cap_fcs
         'G04QGUA5H',    // p_scouts
         'G04N41BB8',    // profidence
+        'G077ZP93P',    // a_gfa
     ],
 
 ];
