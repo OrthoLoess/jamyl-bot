@@ -24,7 +24,7 @@ return [
     ],
     'ping-announce-channel' => 'p_fc_chat',
 
-    'ping-bot-name' => 'Empress Jamyl',
+    'ping-bot-name' => 'Ghost of Empress Jamyl',
     'ping-bot-emoji' => ':jamyl:',
 
     'ping-bots' => [
