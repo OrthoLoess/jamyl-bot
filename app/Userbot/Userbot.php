@@ -264,7 +264,7 @@ class Userbot {
         }
         foreach ($channel->groups as $group) {
             foreach ($group->users as $jamylUser) {
-                if (!array_key_exists($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
+                if (!in_array($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
                     $channel->is_group ? $this->slackMonkey->addToGroup($jamylUser->slack_id, $channel->slack_id) : $this->slackMonkey->addToChannel($jamylUser->slack_id, $channel->slack_id);
                 }
             }
