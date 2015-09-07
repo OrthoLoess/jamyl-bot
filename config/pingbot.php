@@ -70,6 +70,13 @@ return [
             'color'         => '#439FE0',
             'announce'      => false
         ],
+        'c_caps' => [
+            'destination'   => 'c_caps',
+            'title'         => 'CVA Cap ping',
+            'pre-text'      => "",
+            'color'         => '#439FE0',
+            'announce'      => false
+        ],
     ],
 
     'help-text' => "The ping bot is now multi-function!\n"

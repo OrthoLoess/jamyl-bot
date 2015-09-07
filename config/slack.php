@@ -42,6 +42,7 @@ return [
         'G04N41BB8',    // profidence
         'G077ZP93P',    // a_gfa
         'G07HYTANM',    // cva_c
+        'G0A8VGD47',    // c_caps
     ],
 
 ];
