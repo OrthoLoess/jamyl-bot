@@ -43,6 +43,7 @@ return [
         'G077ZP93P',    // a_gfa
         'G07HYTANM',    // cva_c
         'G0A8VGD47',    // c_caps
+        'G0ALFSVDZ',    // no_caps
     ],
 
 ];

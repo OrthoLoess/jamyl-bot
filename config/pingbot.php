@@ -77,6 +77,13 @@ return [
             'color'         => '#439FE0',
             'announce'      => false
         ],
+        'no_caps' => [
+            'destination'   => 'no_caps',
+            'title'         => 'Super Troopers Ho!!!',
+            'pre-text'      => "",
+            'color'         => 'warning',
+            'announce'      => false
+        ],
     ],
 
     'help-text' => "The ping bot is now multi-function!\n"
