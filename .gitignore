@@ -7,3 +7,5 @@
 config/standings.php
 
 dump.rdb
+
+.DS_Store
