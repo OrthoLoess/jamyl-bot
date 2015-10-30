@@ -269,4 +269,29 @@ class SlackMonkey {
             throw new SlackException($response->json()['error']);
         });
     }
+
+    /**
+     * Set the user's name to the passed in string.
+     *
+     * Undocumented API
+     *
+     * @param string $user
+     * @param string $firstName
+     * @param string $lastName
+     *
+     * @return bool
+     * @throws SlackException
+     */
+    public function setName($user, $firstName, $lastName = '')
+    {
+        $response = $this->guzzle->post("users.profile.set?user=$user&token=".config('slack.admin-token'), [
+            'body' => 'profile='.urlencode('{"first_name":"'.$firstName.'","last_name":"'.$lastName.'"}'),
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
+        ]);
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
+    }
 }

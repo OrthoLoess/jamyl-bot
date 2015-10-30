@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel {
         'JamylBot\Console\Commands\ManageChannels',
         'JamylBot\Console\Commands\ManuallyAddUser',
         'JamylBot\Console\Commands\TrollPunkslap',
+        'JamylBot\Console\Commands\SetNameTest',
 	];
 
 	/**
