@@ -23,11 +23,11 @@ class Userbot {
     /**
      * @var ApiMonkey
      */
-    protected $apiMonkey;
+    public $apiMonkey;
     /**
      * @var SlackMonkey
      */
-    protected $slackMonkey;
+    public $slackMonkey;
 
     /**
      *
@@ -271,6 +271,29 @@ class Userbot {
         }
     }
 
+    public function checkNames()
+    {
+        $slackUsers = $this->slackMonkey->getUsers();
+        foreach ($slackUsers as $slackUser) {
+            //print($slackUser['real_name']);
+            if (!$slackUser['deleted'] && !$slackUser['is_admin'] && !$slackUser['is_bot']) {
+                $this->compareName($slackUser['real_name'], $slackUser['id']);
+            }
+        }
+    }
+
+    private function compareName($slackName, $slackId)
+    {
+        try {
+            $user = User::findBySlack($slackId);
+            if ($user->getDisplayName(true) != $slackName) {
+                \Log::notice("Name Check: $slackName should be ".$user->getDisplayName(true));
+            }
+        } catch (ModelNotFoundException $e) {
+            // TODO: Disable user?
+        }
+    }
+
     /**
      * @param int $nbBytes
      *
@@ -297,4 +320,5 @@ class Userbot {
     public static function generatePassword($length){
         return substr(preg_replace("/[^a-zA-Z0-9]/", "", base64_encode(Userbot::getRandomBytes($length+1))),0,$length);
     }
+
 }

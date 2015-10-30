@@ -157,6 +157,38 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
+     * Retrieve corp and alliance ticker and format into a string
+     *
+     * @return string
+     */
+    public function makeTicker()
+    {
+        $userbot = new Userbot();
+        $api = $userbot->apiMonkey;
+        if ($this->alliance_id == null) {
+            return '[' . $api->getCorpTicker($this->corp_id) . ']';
+        }
+        return '[' . $api->getAllianceTicker($this->alliance_id) . '|' . $api->getCorpTicker($this->corp_id) . ']';
+    }
+
+    /**
+     * Return the display name as needed for services such as Slack.
+     *
+     * @param bool $asString - If true will return the name as a string, rather than array of first,last.
+     * @return array
+     */
+    public function getDisplayName($asString = false)
+    {
+        if ($asString) {
+            return $this->makeTicker().' '.$this->char_name;
+        }
+        return [
+            'first' => $this->makeTicker(),
+            'last'  => $this->char_name,
+        ];
+    }
+
+    /**
      * @param int $charId
      *
      * @return User

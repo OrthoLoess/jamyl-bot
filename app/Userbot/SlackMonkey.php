@@ -11,6 +11,7 @@ namespace JamylBot\Userbot;
 
 use GuzzleHttp\Client;
 use JamylBot\Exceptions\SlackException;
+use Cache;
 
 /**
  * Class SlackMonkey
@@ -58,10 +59,12 @@ class SlackMonkey {
      */
     public function getUsers()
     {
-        $response = $this->guzzle->get('users.list');
-        if ($response->json()['ok'])
-            return $response->json()['members'];
-        throw new SlackException($response->json()['error']);
+        return Cache::remember('slack_user_list', 3, function() {
+            $response = $this->guzzle->get('users.list');
+            if ($response->json()['ok'])
+                return $response->json()['members'];
+            throw new SlackException($response->json()['error']);
+        });
     }
 
     /**

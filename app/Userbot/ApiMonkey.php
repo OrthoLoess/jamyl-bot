@@ -12,6 +12,7 @@ namespace JamylBot\Userbot;
 use Pheal\Exceptions\APIException;
 use Pheal\Pheal;
 use Pheal\Core\Config as PhealConfig;
+use Cache;
 
 /**
  * Class ApiMonkey
@@ -150,5 +151,38 @@ class ApiMonkey {
     {
         $result = $this->pheal->eveScope->CharacterAffiliation(['ids' => $id]);
         return $result->characters[0]->characterName;
+    }
+
+    /**
+     * Look up corporation sheet to get ticker for given corp ID. Store in cache.
+     *
+     * @param $corpId
+     * @return String
+     */
+    public function getCorpTicker($corpId)
+    {
+        return Cache::rememberForever("corpTicker:$corpId", function() use ($corpId) {
+            $result = $this->pheal->corpScope->CorporationSheet(['corporationID' => $corpId]);
+            return $result->ticker;
+        });
+    }
+
+    /**
+     * Look up given ID on the alliance list, store id->ticker in cache.
+     *
+     * @param $allianceId
+     * @return String
+     */
+    public function getAllianceTicker($allianceId)
+    {
+        return Cache::rememberForever("allianceTicker:$allianceId", function() use ($allianceId) {
+            $result = $this->pheal->eveScope->AllianceList(['version' => 1]);
+            foreach ($result->alliances as $alliance){
+                if ($alliance->allianceID == $allianceId){
+                    return $alliance->shortName;
+                }
+            }
+            throw new \Exception('Alliance not found');
+        });
     }
 }

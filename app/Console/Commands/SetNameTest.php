@@ -1,6 +1,8 @@
 <?php namespace JamylBot\Console\Commands;
 
 use Illuminate\Console\Command;
+use JamylBot\Userbot\ApiMonkey;
+use JamylBot\Userbot\Userbot;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use JamylBot\Userbot\SlackMonkey;
@@ -36,9 +38,11 @@ class SetNameTest extends Command {
 	 *
 	 * @return mixed
 	 */
-	public function fire(SlackMonkey $slack)
+	public function fire(Userbot $userbot)
 	{
 		//$slack->setName('U04LH952N', '[CVA|CALVU]', 'Rollo');
+        //print($api->getAllianceTicker(1988009451)."\n");
+		$userbot->checkNames();
 	}
 
 	/**
