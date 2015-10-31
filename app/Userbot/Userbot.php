@@ -225,6 +225,9 @@ class Userbot {
         }
     }
 
+    /**
+     *
+     */
     public function getNewChannels()
     {
         $channels = $this->slackMonkey->getChannelList();
@@ -245,6 +248,10 @@ class Userbot {
         }
     }
 
+    /**
+     * @param $channel
+     * @throws SlackException
+     */
     public function manageChannel($channel)
     {
         $channelIds = [];
@@ -271,6 +278,9 @@ class Userbot {
         }
     }
 
+    /**
+     *
+     */
     public function checkNames()
     {
         $slackUsers = $this->slackMonkey->getUsers();
@@ -282,15 +292,23 @@ class Userbot {
         }
     }
 
+    /**
+     * @param $slackName
+     * @param $slackId
+     * @throws SlackException
+     */
     private function compareName($slackName, $slackId)
     {
         try {
             $user = User::findBySlack($slackId);
             if ($user->getDisplayName(true) != $slackName) {
-                \Log::notice("Name Check: $slackName should be ".$user->getDisplayName(true));
+                \Log::notice("Changing $slackName to ".$user->getDisplayName(true));
+                $newName = $user->getDisplayName();
+                $this->slackMonkey->setName($slackId, $newName['first'], $newName['last']);
             }
         } catch (ModelNotFoundException $e) {
             // TODO: Disable user?
+            \Log::notice("Slack user $slackId : $slackName not found on jamylbot");
         }
     }
 
