@@ -285,6 +285,7 @@ class SlackMonkey {
      * @return bool
      * @throws SlackException
      */
+    /*
     public function setName($user, $firstName, $lastName = '')
     {
         $response = $this->guzzle->post("users.profile.set?user=$user&token=".config('slack.admin-token'), [
@@ -297,4 +298,5 @@ class SlackMonkey {
             return true;
         throw new SlackException($response->json()['error']);
     }
+    */
 }

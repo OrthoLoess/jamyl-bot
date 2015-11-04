@@ -21,8 +21,6 @@ class Kernel extends ConsoleKernel {
         'JamylBot\Console\Commands\GetSlackChannels',
         'JamylBot\Console\Commands\ManageChannels',
         'JamylBot\Console\Commands\ManuallyAddUser',
-        'JamylBot\Console\Commands\TrollPunkslap',
-        'JamylBot\Console\Commands\SetNameTest',
 	];
 
 	/**
@@ -38,7 +36,6 @@ class Kernel extends ConsoleKernel {
         $schedule->command('jamyl:firekillbot')->everyFiveMinutes();
         $schedule->command('jamyl:manage')->everyFiveMinutes();
         $schedule->command('jamyl:getchannels')->Hourly();
-        $schedule->command('jamyl:punk')->dailyAt('10:05');
 	}
 
 }

@@ -278,9 +278,9 @@ class Userbot {
         }
     }
 
-    /**
+    /** DISABLED - slack is rate limiting too heavily to make this feasible
      *
-     */
+     *
     public function checkNames()
     {
         $slackUsers = $this->slackMonkey->getUsers();
@@ -296,7 +296,7 @@ class Userbot {
      * @param $slackName
      * @param $slackId
      * @throws SlackException
-     */
+     *
     private function compareName($slackName, $slackId)
     {
         try {
@@ -311,7 +311,7 @@ class Userbot {
             \Log::notice("Slack user $slackId : $slackName not found on jamylbot");
         }
     }
-
+*/
     /**
      * @param int $nbBytes
      *
