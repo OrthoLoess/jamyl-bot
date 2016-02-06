@@ -38,6 +38,15 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
     Route::post('portrait', 'CommandController@getPortrait');
     Route::post('command', 'CommandController@chooseCommand');
 
+    Route::post('csmbot', function (Request $request) {
+        return array (
+            'text'    =>  "Provi Candidates for CSM XI:\n"
+                            ."Jin'taan - http://forum.cva-eve.org/index.php?topic=8962 | https://forums.eveonline.com/default.aspx?g=posts&t=464401\n"
+                            ."Utari Onzo - http://forum.cva-eve.org/index.php?topic=8979.0 | https://forums.eveonline.com/default.aspx?g=posts&t=464487\n"
+                            ."Voting begins on February 29th\n",
+        );
+    });
+
     Route::post('form/addEmail', 'HomeController@addEmail');
 
     Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {

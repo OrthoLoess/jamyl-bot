@@ -44,6 +44,8 @@ return [
         'G07HYTANM',    // cva_c
         'G0A8VGD47',    // c_caps
         'G0ALFSVDZ',    // no_caps
+        'G0D7SCFHT',    // scrubs_and_shitlords
+        'G0J2KRB5G',    // tlos
     ],
 
 ];
