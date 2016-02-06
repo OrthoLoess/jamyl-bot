@@ -130,6 +130,7 @@ class SlackMonkey {
         $response = $this->guzzle->get("groups.invite?user=$user&channel=$group");
         if ($response->json()['ok'])
             return true;
+        \Log::error('Exception thrown on '.$user.' when adding to '.$group);
         throw new SlackException($response->json()['error']);
     }
 
@@ -285,6 +286,7 @@ class SlackMonkey {
      * @return bool
      * @throws SlackException
      */
+    /*
     public function setName($user, $firstName, $lastName = '')
     {
         $response = $this->guzzle->post("users.profile.set?user=$user&token=".config('slack.admin-token'), [
@@ -297,4 +299,5 @@ class SlackMonkey {
             return true;
         throw new SlackException($response->json()['error']);
     }
+    */
 }

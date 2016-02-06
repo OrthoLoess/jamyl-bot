@@ -28,6 +28,8 @@ class Userbot {
      * @var SlackMonkey
      */
     public $slackMonkey;
+    
+    protected $usersChecked;
 
     /**
      *
@@ -284,8 +286,12 @@ class Userbot {
     public function checkNames()
     {
         $slackUsers = $this->slackMonkey->getUsers();
+        $this->usersChecked = 0;
         foreach ($slackUsers as $slackUser) {
             //print($slackUser['real_name']);
+            if ($this->usersChecked > 15) {
+                break;
+            }
             if (!$slackUser['deleted'] && !$slackUser['is_admin'] && !$slackUser['is_bot']) {
                 $this->compareName($slackUser['real_name'], $slackUser['id']);
             }
@@ -302,6 +308,7 @@ class Userbot {
         try {
             $user = User::findBySlack($slackId);
             if ($user->getDisplayName(true) != $slackName) {
+                $this->usersChecked++;
                 \Log::notice("Changing $slackName to ".$user->getDisplayName(true));
                 $newName = $user->getDisplayName();
                 $this->slackMonkey->setName($slackId, $newName['first'], $newName['last']);

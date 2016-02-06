@@ -84,6 +84,13 @@ return [
             'color'         => 'warning',
             'announce'      => false
         ],
+        'scrubs' => [
+            'destination'   => 'scrubs_and_shitlords',
+            'title'         => 'Listen up, shitlords.',
+            'pre-text'      => '',
+            'color'         => 'danger',
+            'announce'      => false
+        ],
     ],
 
     'help-text' => "The ping bot is now multi-function!\n"
