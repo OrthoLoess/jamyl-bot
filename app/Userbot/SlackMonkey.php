@@ -42,14 +42,20 @@ class SlackMonkey {
      * message properly is in the payload array
      *
      * @param Array $payload
-     *
      * @return bool
+     * @throws SlackException
      */
     public function sendMessageToServer($payload)
     {
-        $client = new Client();  // This function does not use the web API, so needs different defaults
-        $client->get(config('pingbot.post-url'), ['json' => $payload]);
-        return true;
+        //$client = new Client();  // This function does not use the web API, so needs different defaults
+        //$client->get(config('pingbot.post-url'), ['json' => $payload]);
+        if (array_key_exists('attachments', $payload)) {
+            $payload['attachments'] = json_encode($payload['attachments']);
+        }
+        $response = $this->guzzle->post('chat.postMessage', ['query' => $payload]);
+        if ($response->json()['ok'])
+            return true;
+        throw new SlackException($response->json()['error']);
     }
 
     /**
