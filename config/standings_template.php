@@ -34,5 +34,14 @@ return [
             //
         ],
     ],
+    
+    'reds' => [
+        'alliances' => [
+            //
+        ],
+        'corporations' => [
+            //
+        ],
+    ],
 
 ];
