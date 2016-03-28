@@ -130,8 +130,8 @@ class Pingbot {
             'username'      => config('pingbot.ping-bot-name'),
             'icon_emoji'    => config('pingbot.ping-bot-emoji'),
             'channel'       => $pingSettings['destination'],
-            'text'          => 'Ping from '.$sender.' to <!channel>: '.$message,
-            'attachments'   => $this->makeAttachment($message, $pingSettings),
+            'text'          => 'Ping from '.$sender.' to <!channel>:'."\n>>>".$message,
+            //'attachments'   => $this->makeAttachment($message, $pingSettings),
         ];
     }
 
