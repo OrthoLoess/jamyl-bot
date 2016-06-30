@@ -35,9 +35,16 @@ class Killbot {
         }
     }
 
-    protected function testPlayerAttacker($attacker) 
+    /**
+     *  Tests if an attacker JSON obj has a corporationID. When used as an attacker array
+     *  filter, this will remove NPCs and leave the following:
+     *    - actual players
+     *    - control towers
+     *    - citadels
+     */
+    protected function testAttackerHasCorp($attacker) 
     {
-        return ($attacker['characterID'] != 0);
+        return ($attacker['corporationID'] != 0);
     }
 
     protected function getNewKills($corp)
@@ -50,7 +57,7 @@ class Killbot {
                     $last = $kill['killID'];
                 }
                 /* Count the number of 'real' attackers, excluding NPCs */
-                $attacker_count = count(array_filter($kill['attackers'], array($this, 'testPlayerAttacker')));
+                $attacker_count = count(array_filter($kill['attackers'], array($this, 'testAttackerHasCorp')));
                 if ($attacker_count == 1) {
                     if ( 
                         !in_array($kill['victim']['shipTypeID'],config('killbot.capsule_type_ids')) || 
