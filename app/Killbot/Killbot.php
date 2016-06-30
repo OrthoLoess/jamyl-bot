@@ -35,6 +35,11 @@ class Killbot {
         }
     }
 
+    protected function testPlayerAttacker($attacker) 
+    {
+        return ($attacker['characterID'] != 0);
+    }
+
     protected function getNewKills($corp)
     {
         $kills = $this->zkill->pullCorpKills($corp['id'], $this->getLastId());
@@ -45,12 +50,7 @@ class Killbot {
                     $last = $kill['killID'];
                 }
                 /* Count the number of 'real' attackers, excluding NPCs */
-                $attacker_count = 0;
-                foreach ($kill['attackers'] as $attacker) {
-                    if ($attacker['characterID'] != 0) {
-                        $attacker_count++;
-                    }
-                }
+                $attacker_count = count(array_filter($kill['attackers'], array($this, 'testPlayerAttacker')));
                 if ($attacker_count == 1) {
                     if ( 
                         !in_array($kill['victim']['shipTypeID'],config('killbot.capsule_type_ids')) || 
