@@ -44,7 +44,14 @@ class Killbot {
                 if ($kill['killID'] > $last) {
                     $last = $kill['killID'];
                 }
-                if (count($kill['attackers']) == 1) {
+                /* Count the number of 'real' attackers, excluding NPCs */
+                $attacker_count = 0;
+                foreach ($kill['attackers'] as $attacker) {
+                    if ($attacker['characterID'] != 0) {
+                        $attacker_count++;
+                    }
+                }
+                if ($attacker_count == 1) {
                     if ( 
                         !in_array($kill['victim']['shipTypeID'],config('killbot.capsule_type_ids')) || 
                         $kill['zkb']['totalValue'] > config('killbot.min_capsule_value') 
