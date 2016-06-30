@@ -55,7 +55,7 @@ class ZkillMonkey {
 
         $response = $this->guzzle->get($reqUrl);
         if ( $response->getStatusCode() != 200 ) {
-            \Log::warning("Zkill returned HTTP status code: ".$response->getStatusCode()." when requesting kills for corp ID ".$corpId);
+            \Log::warning("Zkill returned HTTP status code: ".$response->getStatusCode()." when requesting kills for ".$fetchMod." - ".$fetchID);
         }
 
         return $response->json();
