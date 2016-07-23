@@ -42,8 +42,10 @@ class UpdateUserGroups extends Command
         foreach(User::all() as $user) {
             foreach(Group::all() as $group) {
                 if(count($group->getCorps())) {
-                    if ($group->hasCorp($user->corp_id) && !$group->users()->find($user->id)) {
-                        $group->users()->attach($user);
+                    if ($group->hasCorp($user->corp_id)) {
+                        if(!$group->users()->find($user->id)) {
+                            $group->users()->attach($user);
+                        }
                     } else {
                         $group->users()->detach($user);
                     }
