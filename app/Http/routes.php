@@ -58,6 +58,8 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
         Route::post('groups/{groupId}/remove-channel', 'GroupController@removeChannelFromGroup')->where(['groupId' => '[0-9]+']);
         Route::post('groups/{groupId}/add-owner', 'GroupController@addOwnerToGroup')->where(['groupId' => '[0-9]+']);
         Route::post('groups/{groupId}/remove-owner', 'GroupController@removeOwnerFromGroup')->where(['groupId' => '[0-9]+']);
+        ROute::post('groups/{groupId}/add-corp', 'GroupController@addCorpToGroup')->where(['groupId' => '[0-9]+']);
+        ROute::post('groups/{groupId}/remove-corp', 'GroupController@removeCorpFromGroup')->where(['groupId' => '[0-9]+']);
 
         Route::controller('users', 'UserController');
 

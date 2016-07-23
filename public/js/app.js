@@ -2,13 +2,10 @@ $(document).ready(function(){
 	/* Group Admin Page */
 
 	/* Searchable Dropdown Box */
-	$("form.add-user-form").children("select").combobox();
-    $("form.add-owner-form").children("select").combobox();
+	//$("form.add-user-form").children("select").combobox();
+    //$("form.add-owner-form").children("select").combobox();
+	$("select").combobox();
 
-    $("#addOwner").on('click', function(e){
-        e.preventDefault();
-        $("#add-owner-form-div").show();
-    });
 
 	/* Deleting Users AJAX */
 	$("form.user-action-form").submit(function(e){
