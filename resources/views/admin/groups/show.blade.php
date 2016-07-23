@@ -93,15 +93,17 @@
                         </div>
                         <div class="col-sm-9">
                             @forelse($users as $user)
-                                @if (count($corps) == 0)
-                                    {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-user', 'class' => 'user-action-form']) !!}
-                                    {!! Form::button('<i class="glyphicon glyphicon-remove" style="vertical-align: baseline"></i>', array('type' => 'submit', 'class' => 'btn btn-danger btn-xs')) !!}
-                                    {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
-                                    {!! Form::hidden('user', $user->id) !!}
-                                    {!! Form::close() !!}
-                                @else
-                                    {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
-                                @endif
+                                <div>
+                                    @if (count($corps) == 0)
+                                        {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-user', 'class' => 'user-action-form']) !!}
+                                        {!! Form::button('<i class="glyphicon glyphicon-remove" style="vertical-align: baseline"></i>', array('type' => 'submit', 'class' => 'btn btn-danger btn-xs')) !!}
+                                        {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
+                                        {!! Form::hidden('user', $user->id) !!}
+                                        {!! Form::close() !!}
+                                    @else
+                                        {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
+                                    @endif
+                                </div>
                             @empty
                                 <div>
                                     This group has no members.
