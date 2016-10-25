@@ -14,7 +14,8 @@
                         @if($email)
                             <p>Your registered email address is {{ $email }}</p>
                             @if($slackName)
-                                <p>Your Slack username is {{ $slackName }}</p>
+                                <p>Your Slack username is {{ $slackName }}  <- If this says slackbot panic and/or contact Ortho.</p>
+                                <p>Login to slack at <a href="https://provibloc.slack.com/">provibloc.slack.com</a></p>
                                 <p>&nbsp;</p>
                                 @if($groups && count($groups))
                                     <h4>You have admin rights on the following groups:</h4>

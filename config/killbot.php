@@ -23,7 +23,7 @@ return [
     'corps' => [
         'ptb' => [
             'id' => 398598576,
-            'channel' => 'ptb',
+            'channel' => 'ptb_friends',
             'active' => true
         ],
 //        'wasp' => [

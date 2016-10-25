@@ -91,6 +91,34 @@ return [
             'color'         => 'danger',
             'announce'      => false
         ],
+        'p-scouts' => [
+            'destination'   => 'p-scouts',
+            'title'         => 'Ping',
+            'pre-text'      => '',
+            'color'         => 'warning',
+            'announce'      => false
+        ],
+        '2-frag' => [
+            'destination'   => '2-frag',
+            'title'         => "AMO's a scrub who can't afford bribes",
+            'pre-text'      => '',
+            'color'         => 'danger',
+            'announce'      => false
+        ],
+        'cva_at' => [
+            'destination'   => 'cva_at',
+            'title'         => 'AT Ping',
+            'pre-text'      => '',
+            'color'         => 'info',
+            'announce'      => false
+        ],
+        'p_cov_ops' => [
+            'destination'   => 'p_cov_ops',
+            'title'         => 'Blops ping',
+            'pre-text'      => '',
+            'color'         => 'danger',
+            'announce'      => false
+        ],
     ],
 
     'help-text' => "The ping bot is now multi-function!\n"

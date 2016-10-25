@@ -46,6 +46,8 @@ return [
         'G0ALFSVDZ',    // no_caps
         'G0D7SCFHT',    // scrubs_and_shitlords
         'G0J2KRB5G',    // tlos
+        'G051AHKS2',    // cva_at
+        'G2GT3FJAU',    // p_capp
     ],
 
 ];
