@@ -130,7 +130,7 @@ class Pingbot {
             'username'      => config('pingbot.ping-bot-name'),
             'icon_emoji'    => config('pingbot.ping-bot-emoji'),
             'channel'       => $pingSettings['destination'],
-            'text'          => 'Ping from '.$sender.' to <!channel>:'."\n>>>".$message,
+            'text'          => 'Ping from '.$sender.' to <!channel>:'."\n>>>".trim($message),
             //'attachments'   => $this->makeAttachment($message, $pingSettings),
         ];
     }
@@ -216,7 +216,7 @@ class Pingbot {
      */
     protected function parsePingType($message)
     {
-        $messageArray = explode(" ", $message, 2);
+        $messageArray = preg_split("/[\s]+/", $message, 2);
 
         if (!isset($messageArray[1]))
         {

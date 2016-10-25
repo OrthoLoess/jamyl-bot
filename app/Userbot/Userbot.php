@@ -197,7 +197,7 @@ class Userbot {
                     $user->save();
                     \Log::info('User '.$user->char_name.' set inactive on slack API');
                 } catch (SlackException $e ){
-                    \Log::error($e->getMessage());
+                    \Log::error('Could not set '.$user->char_name.' inactive: '.$e->getMessage());
                 }
             }
             if ($user->slack_id !== null && $user->inactive &&
@@ -208,7 +208,7 @@ class Userbot {
                     $user->save();
                     \Log::info('User '.$user->char_name.' reset to ACTIVE on slack API');
                 } catch (SlackException $e ){
-                    \Log::error($e->getMessage());
+                    \Log::error('Could not set '.$user->char_name.' active: '.$e->getMessage());
                 }
             }
         }
@@ -273,7 +273,9 @@ class Userbot {
         }
         foreach ($channel->groups as $group) {
             foreach ($group->users as $jamylUser) {
-                if (!in_array($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
+                if ($jamylUser->slack_id == 'USLACKBOT') {
+                    \Log::error('USLACKBOT error: '.$jamylUser->char_name.' | '.$jamylUser->email);
+                } elseif (!in_array($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
                     $channel->is_group ? $this->slackMonkey->addToGroup($jamylUser->slack_id, $channel->slack_id) : $this->slackMonkey->addToChannel($jamylUser->slack_id, $channel->slack_id);
                 }
             }

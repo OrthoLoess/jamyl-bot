@@ -43,7 +43,10 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
             'text'    =>  "Provi Candidates for CSM XI:\n"
                             ."Jin'taan - http://forum.cva-eve.org/index.php?topic=8962 | https://forums.eveonline.com/default.aspx?g=posts&t=464401\n"
                             ."Utari Onzo - http://forum.cva-eve.org/index.php?topic=8979.0 | https://forums.eveonline.com/default.aspx?g=posts&t=464487\n"
-                            ."Voting begins on February 29th\n",
+                            ."Vaari - http://forum.cva-eve.org/index.php?topic=9166.0 | https://forums.eveonline.com/default.aspx?g=posts&m=6368644\n"
+                            ."\nVote now at https://community.eveonline.com/community/csm/vote\n"
+                            ."Voting closes on the 25th\n"
+                            ."\nhttps://www.youtube.com/watch?v=oFKKBjN3yHQ",
         );
     });
 

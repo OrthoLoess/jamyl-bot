@@ -67,8 +67,11 @@ class SlackMonkey {
     {
         return Cache::remember('slack_user_list', 3, function() {
             $response = $this->guzzle->get('users.list');
-            if ($response->json()['ok'])
-                return $response->json()['members'];
+            if ($response->json()['ok']) {
+                $members = $response->json()['members'];
+                array_pop($members);
+                return $members;
+            }
             throw new SlackException($response->json()['error']);
         });
     }
