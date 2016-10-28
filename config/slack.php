@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'api-url'   => 'https://provibloc.slack.com/api/',
+    'api-url'   => '\'https://goddamnleavemealone.slack.com/api/',
     'api-token' => env('SLACK_API_TOKEN'),
     'admin-token' => env('SLACK_ADMIN_TOKEN'),
     'register-token' => env('SLACK_REGISTER_TOKEN'),

@@ -61,4 +61,35 @@ class Group extends Model {
         return false;
     }
 
+    public function getCorps()
+    {
+        return array_filter(explode(',', $this->corps));
+    }
+
+    public function setCorps($newCorps)
+    {
+        $this->corps = implode(',', $newCorps);
+        $this->save();
+    }
+
+    public function addCorp($newCorp)
+    {
+        $corps = $this->getCorps();
+        $corps[] = $newCorp;
+        $this->corps = implode(',', array_unique($corps));
+        $this->save();
+    }
+
+    public function removeCorp($corp)
+    {
+        $corps = $this->getCorps();
+        $corps = array_diff($corps, [$corp]);
+        $this->setCorps($corps);
+    }
+
+    public function hasCorp($corp)
+    {
+        return in_array($corp, $this->getCorps());
+    }
+
 }

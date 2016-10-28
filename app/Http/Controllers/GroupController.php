@@ -101,6 +101,17 @@ class GroupController extends Controller {
             $menuOwners[$owner->id] = $owner->char_name;
         }
 
+        $users = User::all();
+        $corps = [];
+        $menuCorps = [];
+        foreach($users as $user) {
+            if($group->hasCorp($user->corp_id)) {
+                $corps[$user->corp_id] = $user->corp_name;
+            } else {
+                $menuCorps[$user->corp_id] = $user->corp_name;
+            }
+        }
+
         return view('admin.groups.show', [
             'id'    => $group->id,
             'name'  => $group->name,
@@ -111,6 +122,8 @@ class GroupController extends Controller {
             'admin'     => \Auth::user()->admin,
             'owners'    => $owners,
             'menuOwners'  => $menuOwners,
+            'corps' => $corps,
+            'menuCorps' => $menuCorps,
         ]);
 	}
 
@@ -214,4 +227,17 @@ class GroupController extends Controller {
         return redirect('/admin/groups/'.$groupId);
     }
 
+    public function addCorpToGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->addCorp(\Request::input('corp'));
+        return redirect('/admin/groups/'.$groupId);
+    }
+
+    public function removeCorpFromGroup($groupId)
+    {
+        $group = Group::find($groupId);
+        $group->removeCorp(\Request::input('corp'));
+        return redirect('/admin/groups/'.$groupId);
+    }
 }
