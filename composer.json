@@ -15,7 +15,7 @@
         }
     ],
 	"require": {
-		"laravel/framework": "5.0.*",
+		"laravel/framework": "5.1.*",
         "laravel/socialite": "dev-add-eveonline",
         "3rdpartyeve/phealng": "dev-fix-predis",
         "laracasts/flash": "~1.3",
