@@ -8,7 +8,7 @@ use JamylBot\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use JamylBot\User;
 use JamylBot\Userbot\Userbot;
-use Socialize;
+use Socialite;
 
 class AuthController extends Controller {
 
@@ -29,12 +29,12 @@ class AuthController extends Controller {
 
     public function redirectToProvider()
     {
-        return Socialize::with('eveonline')->redirect();
+        return Socialite::driver('eveonline')->redirect();
     }
 
     public function handleProviderCallback()
     {
-        $char = Socialize::with('eveonline')->user();
+        $char = Socialite::driver('eveonline')->user();
 
         try {
             $user = User::where('char_id', $char->id)->firstOrFail();
