@@ -52,8 +52,8 @@ class ApiMonkey {
                 $dbSettings['password']
             );
         } else {
-            PhealConfig::getInstance()->cache = new \Pheal\Cache\FileStorage(storage_path().'/app/phealCache/');
-            //PhealConfig::getInstance()->cache = new \Pheal\Cache\PredisStorage();
+            //PhealConfig::getInstance()->cache = new \Pheal\Cache\FileStorage(storage_path().'/app/phealCache/');
+            PhealConfig::getInstance()->cache = new \Pheal\Cache\PredisStorage();
         }
         PhealConfig::getinstance()->access = new \Pheal\Access\StaticCheck();
     }
