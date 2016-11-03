@@ -31,7 +31,11 @@ class HomeController extends Controller {
 	{
 		$this->middleware('auth');
         $this->userbot = $userbot;
-        $this->user = \Auth::user();
+        $this->middelware(function ($request, $next) {
+            $this->user = \Auth::user();
+            return $next($request);
+        });
+        //$this->user = \Auth::user();
 	}
 
 	/**
