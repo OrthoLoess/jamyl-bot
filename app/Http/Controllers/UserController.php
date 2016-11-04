@@ -8,7 +8,7 @@ use JamylBot\User;
 
 class UserController extends Controller {
 
-	public function getIndex()
+	public function showAll()
     {
         // List all users
         $users = User::all();

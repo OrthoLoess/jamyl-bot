@@ -31,10 +31,10 @@ class HomeController extends Controller {
 	{
 		$this->middleware('auth');
         $this->userbot = $userbot;
-        $this->middelware(function ($request, $next) {
+        /*$this->middelware(function ($request, $next) {
             $this->user = \Auth::user();
             return $next($request);
-        });
+        });*/
         //$this->user = \Auth::user();
 	}
 
@@ -43,8 +43,9 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
+	    $this->user = $request->user();
         $groups = [];
         /** @var Group $group */
         foreach (Group::all() as $group) {
@@ -67,6 +68,7 @@ class HomeController extends Controller {
 
     public function addEmail(Request $request)
     {
+        $this->user = $request->user();
         $email = $request->input('email');
         $this->userbot->addEmail($this->user, $email);
         return redirect('home');
