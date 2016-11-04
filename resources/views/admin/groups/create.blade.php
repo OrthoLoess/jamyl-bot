@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Create new group</div>
                     <div class="panel-body">
-                        {!! Form::open(['route' => 'admin.groups.store']) !!}
+                        {!! Form::open(['route' => 'groups.store']) !!}
                         {!! Form::text('name') !!}
                         {!! Form::submit('Create group') !!}
                         {!! Form::close() !!}

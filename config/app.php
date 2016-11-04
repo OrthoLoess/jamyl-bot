@@ -3,6 +3,31 @@
 return [
 
 	/*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    */
+
+    'name' => 'JamylBot',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Environment
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'env' => env('APP_ENV', 'production'),
+
+	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode
 	|--------------------------------------------------------------------------
@@ -80,7 +105,7 @@ return [
 
 	'key' => env('APP_KEY', 'SomeRandomString'),
 
-	'cipher' => MCRYPT_RIJNDAEL_128,
+	'cipher' => 'AES-256-CBC',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,12 +138,10 @@ return [
 		/*
 		 * Laravel Framework Service Providers...
 		 */
-		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',
 		'Illuminate\Bus\BusServiceProvider',
 		'Illuminate\Cache\CacheServiceProvider',
 		'Illuminate\Foundation\Providers\ConsoleSupportServiceProvider',
-		'Illuminate\Routing\ControllerServiceProvider',
 		'Illuminate\Cookie\CookieServiceProvider',
 		'Illuminate\Database\DatabaseServiceProvider',
 		'Illuminate\Encryption\EncryptionServiceProvider',
@@ -135,19 +158,22 @@ return [
 		'Illuminate\Translation\TranslationServiceProvider',
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
+		'Illuminate\Broadcasting\BroadcastServiceProvider',
+		Illuminate\Notifications\NotificationServiceProvider::class,
 
 		/*
 		 * Application Service Providers...
 		 */
 		'JamylBot\Providers\AppServiceProvider',
-		'JamylBot\Providers\BusServiceProvider',
 		'JamylBot\Providers\ConfigServiceProvider',
 		'JamylBot\Providers\EventServiceProvider',
 		'JamylBot\Providers\RouteServiceProvider',
+		JamylBot\Providers\BroadcastServiceProvider::class,
 
         'Laravel\Socialite\SocialiteServiceProvider',
         'Laracasts\Flash\FlashServiceProvider',
         'Collective\Html\HtmlServiceProvider',
+        nullx27\Socialite\EveOnline\EveOnlineServiceProvider::class,
 
 	],
 
@@ -196,8 +222,9 @@ return [
 		'URL'       => 'Illuminate\Support\Facades\URL',
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
+		'Notification' => Illuminate\Support\Facades\Notification::class,
 
-        'Socialize' => 'Laravel\Socialite\Facades\Socialite',
+        'Socialite' => 'Laravel\Socialite\Facades\Socialite',
         'Flash'     => 'Laracasts\Flash\Flash',
         'Form'      => 'Collective\Html\FormFacade',
         'Html'      => 'Collective\Html\HtmlFacade',

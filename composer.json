@@ -5,19 +5,11 @@
 	"license": "MIT",
 	"type": "project",
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/OrthoLoess/socialite"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/OrthoLoess/phealng"
-        }
     ],
 	"require": {
-		"laravel/framework": "5.0.*",
-        "laravel/socialite": "dev-add-eveonline",
-        "3rdpartyeve/phealng": "dev-fix-predis",
+		"laravel/framework": "5.3.*",
+		"nullx27/eveonline-socialite": "0.1.*",
+        "3rdpartyeve/phealng": "~2.0",
         "laracasts/flash": "~1.3",
         "laravelcollective/html": "~5.0",
         "predis/predis": "~1.0",
@@ -25,7 +17,9 @@
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1"
+		"phpspec/phpspec": "~2.1",
+		"symfony/dom-crawler": "3.1.*",
+		"symfony/css-selector": "3.1.*"
 	},
 	"autoload": {
 		"classmap": [

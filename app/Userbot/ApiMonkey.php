@@ -45,7 +45,7 @@ class ApiMonkey {
     {
         $this->pheal = new Pheal();
         $this->userbot = $userbot;
-        if (env('PHEAL_CACHE') == 'database') {
+        if (config('eve.pheal_cache') == 'database') {
             $dbSettings = config('database.connections.mysql');
             PhealConfig::getInstance()->cache = new \Pheal\Cache\PdoStorage(
                 $dbSettings['driver'] . ':host=' . $dbSettings['host'] . ';dbname=' . $dbSettings['database'],
