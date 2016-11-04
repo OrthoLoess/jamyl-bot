@@ -38,7 +38,6 @@ class ApiMonkey {
     protected $maxQueueSize = 50;
 
     /**
-     * @param Pheal $pheal
      * @param Userbot $userbot
      */
     function __construct(Userbot $userbot)
