@@ -31,9 +31,7 @@ class SlackMonkey {
     {
         $this->guzzle = new Client([
             'base_uri'  => config('slack.api-url'),
-            'defaults'  => [
-                'query'     => ['token' => config('slack.api-token')],
-            ],
+            'query'     => ['token' => config('slack.api-token')],
         ]);
     }
 
