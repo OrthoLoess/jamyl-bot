@@ -188,7 +188,10 @@ class SlackMonkey {
      */
     public function setInactive($user)
     {
-        $response = $this->guzzle->post("users.admin.setInactive?user=$user&token=".config('slack.admin-token'));
+        $response = $this->guzzle->post("users.admin.setInactive", ['query' => [
+            'user' => $user,
+            'token' => config('slack.admin-token')
+        ]]);
         if (json_decode($response->getBody(), true)['ok'])
             return true;
         throw new SlackException(json_decode($response->getBody(), true)['error']);
@@ -206,7 +209,10 @@ class SlackMonkey {
      */
     public function setActive($user)
     {
-        $response = $this->guzzle->post("users.admin.setRegular?user=$user&token=".config('slack.admin-token'));
+        $response = $this->guzzle->post("users.admin.setRegular", ['query' => [
+            'user' => $user,
+            'token' => config('slack.admin-token')
+        ]]);
         if (json_decode($response->getBody(), true)['ok'])
             return true;
         throw new SlackException(json_decode($response->getBody(), true)['error']);
@@ -227,12 +233,12 @@ class SlackMonkey {
     {
         /** @var array $channels */
         $channels = array_merge(config('slack.auto-join-channels'), $extraChannels);
-        $response = $this->guzzle->post("users.admin.invite".
-            "?email=".$email.
-            "&first_name=".$name.
-            "&token=".config('slack.admin-token').
-            "&channels=".implode(',', $channels)
-        );
+        $response = $this->guzzle->post("users.admin.invite", ['query' => [
+            "email" => $email,
+            "first_name" => $name,
+            "token" => config('slack.admin-token'),
+            "channels" => implode(',', $channels)
+        ]]);
         if (json_decode($response->getBody(), true)['ok'])
             return true;
         throw new SlackException(json_decode($response->getBody(), true)['error']);
