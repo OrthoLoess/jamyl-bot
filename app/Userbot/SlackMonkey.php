@@ -52,7 +52,7 @@ class SlackMonkey {
         if (array_key_exists('attachments', $payload)) {
             $payload['attachments'] = json_encode($payload['attachments']);
         }
-        $response = $this->guzzle->post('chat.postMessage', ['query' => $payload]);
+        $response = $this->guzzle->post('chat.postMessage', ['query' => array_merge($this->guzzle->getConfig('query'), $payload)]);
         $array = json_decode($response->getBody(), true);
         if ($array['ok'])
             return true;
