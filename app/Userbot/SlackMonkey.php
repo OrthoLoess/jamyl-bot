@@ -87,7 +87,7 @@ class SlackMonkey {
     {
         $response = $this->guzzle->get("channels.info", ['query' => array_merge($this->guzzle->getConfig('query'), ['channel' => $channel])]);
         if (json_decode($response->getBody(), true))
-            return $response->json()['channel']['members'];
+            return json_decode($response->getBody(), true)['channel']['members'];
         throw new SlackException(json_decode($response->getBody(), true)['error']);
     }
 
@@ -103,7 +103,7 @@ class SlackMonkey {
     {
         $response = $this->guzzle->get("groups.info", ['query' => array_merge($this->guzzle->getConfig('query'), ['channel' => $group])]);
         if (json_decode($response->getBody(), true)['ok'])
-            return $response->json()['group']['members'];
+            return json_decode($response->getBody(), true)['group']['members'];
         throw new SlackException(json_decode($response->getBody(), true)['error']);
     }
 
