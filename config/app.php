@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'JamylBot',
+    'name' => config('instance.name','JamylBot'),
 
     /*
     |--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://slack.provibloc.net',
+	'url' => config('instance.appUrl', 'http://slack.provibloc.net'),
 
 	/*
 	|--------------------------------------------------------------------------
