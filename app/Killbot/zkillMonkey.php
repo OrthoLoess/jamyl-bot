@@ -58,7 +58,7 @@ class ZkillMonkey {
             \Log::warning("Zkill returned HTTP status code: ".$response->getStatusCode()." when requesting kills for ".$fetchMod." - ".$fetchID);
         }
 
-        return json_decode($response->body(), true);
+        return json_decode($response->getBody(), true);
     }
 
     public function pullCorpKills($corpId, $after = null)
