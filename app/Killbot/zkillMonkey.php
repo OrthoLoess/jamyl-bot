@@ -28,7 +28,7 @@ class ZkillMonkey {
     public function __construct()
     {
         $this->guzzle = new Client([
-            'base_url'  => config('killbot.base_url'),
+            'base_uri'  => config('killbot.base_url'),
             'defaults'  => [
                 'headers'   => [
                     'Accept-Encoding' => 'gzip',
