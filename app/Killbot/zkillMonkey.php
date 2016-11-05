@@ -45,9 +45,8 @@ class ZkillMonkey {
     public function pullKills($fetchMod, $fetchID, $afterID = null)
     {
         $reqUrl = $fetchMod.'/'.$fetchID.'/';
-        $reqUrl .= $afterID ? 'afterKillId/'.$afterID.'/' : '';
+        $reqUrl .= $afterID ? 'afterKillID/'.$afterID.'/' : '';
         $reqUrl .= 'orderDirection/desc/no-items/';
-
         $response = $this->guzzle->get($reqUrl);
         if ( $response->getStatusCode() != 200 ) {
             \Log::warning("Zkill returned HTTP status code: ".$response->getStatusCode()." when requesting kills for ".$fetchMod." - ".$fetchID);
