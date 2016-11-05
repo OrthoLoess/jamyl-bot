@@ -5,6 +5,10 @@
 .idea
 
 config/standings.php
+config/instance.php
+config/killbot.php
+config/pingbot.php
+config/slack.php
 
 dump.rdb
 
