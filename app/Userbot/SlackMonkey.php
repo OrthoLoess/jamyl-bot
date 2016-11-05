@@ -53,9 +53,10 @@ class SlackMonkey {
             $payload['attachments'] = json_encode($payload['attachments']);
         }
         $response = $this->guzzle->post('chat.postMessage', ['query' => $payload]);
-        if ($response->json()['ok'])
+        $array = json_decode($response->body(), true);
+        if ($array['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException($array['error']);
     }
 
     /**
@@ -67,12 +68,12 @@ class SlackMonkey {
     {
         return Cache::remember('slack_user_list', 3, function() {
             $response = $this->guzzle->get('users.list');
-            if ($response->json()['ok']) {
-                $members = $response->json()['members'];
+            if (json_decode($response->body(), true)['ok']) {
+                $members = json_decode($response->body(), true)['members'];
                 array_pop($members);
                 return $members;
             }
-            throw new SlackException($response->json()['error']);
+            throw new SlackException(json_decode($response->body(), true)['error']);
         });
     }
 
@@ -87,9 +88,9 @@ class SlackMonkey {
     public function getUsersForChannel($channel)
     {
         $response = $this->guzzle->get("channels.info?channel=$channel");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true))
             return $response->json()['channel']['members'];
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -103,9 +104,9 @@ class SlackMonkey {
     public function getUsersForGroup($group)
     {
         $response = $this->guzzle->get("groups.info?channel=$group");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return $response->json()['group']['members'];
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -120,9 +121,9 @@ class SlackMonkey {
     public function addToChannel($user, $channel)
     {
         $response = $this->guzzle->get("channels.invite?user=$user&channel=$channel");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -137,10 +138,10 @@ class SlackMonkey {
     public function addToGroup($user, $group)
     {
         $response = $this->guzzle->get("groups.invite?user=$user&channel=$group");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
         \Log::error('Exception thrown on '.$user.' when adding to '.$group);
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -155,9 +156,9 @@ class SlackMonkey {
     public function kickFromChannel($user, $channel)
     {
         $response = $this->guzzle->get("channels.kick?user=$user&channel=$channel");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -172,9 +173,9 @@ class SlackMonkey {
     public function kickFromGroup($user, $group)
     {
         $response = $this->guzzle->get("groups.kick?user=$user&channel=$group");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -190,9 +191,9 @@ class SlackMonkey {
     public function setInactive($user)
     {
         $response = $this->guzzle->post("users.admin.setInactive?user=$user&token=".config('slack.admin-token'));
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -208,9 +209,9 @@ class SlackMonkey {
     public function setActive($user)
     {
         $response = $this->guzzle->post("users.admin.setRegular?user=$user&token=".config('slack.admin-token'));
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -234,9 +235,9 @@ class SlackMonkey {
             "&token=".config('slack.admin-token').
             "&channels=".implode(',', $channels)
         );
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return true;
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -248,9 +249,9 @@ class SlackMonkey {
     public function getUserData($userId)
     {
         $response = $this->guzzle->get("users.info?user=$userId");
-        if ($response->json()['ok'])
+        if (json_decode($response->body(), true)['ok'])
             return $response->json()['user'];
-        throw new SlackException($response->json()['error']);
+        throw new SlackException(json_decode($response->body(), true)['error']);
     }
 
     /**
@@ -262,9 +263,9 @@ class SlackMonkey {
     {
         return \Cache::remember('group-list', config('slack.cache-time'), function() {
             $response = $this->guzzle->get("groups.list?exclude_archived=1");
-            if ($response->json()['ok'])
+            if (json_decode($response->body(), true)['ok'])
                 return $response->json()['groups'];
-            throw new SlackException($response->json()['error']);
+            throw new SlackException(json_decode($response->body(), true)['error']);
         });
     }
 
@@ -277,9 +278,9 @@ class SlackMonkey {
     {
         return \Cache::remember('channel-list', config('slack.cache-time'), function() {
             $response = $this->guzzle->get("channels.list?exclude_archived=1");
-            if ($response->json()['ok'])
+            if (json_decode($response->body(), true)['ok'])
                 return $response->json()['channels'];
-            throw new SlackException($response->json()['error']);
+            throw new SlackException(json_decode($response->body(), true)['error']);
         });
     }
 
