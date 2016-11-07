@@ -44,7 +44,7 @@ class MustBeAdmin {
         if ($user->admin) {
             return $next($request);
         }
-        $groupId = $request->groupId ? $request->groupId : $request->groups;
+        $groupId = $request->group ? $request->group : $request->groups;
         if ($groupId) {
             /** @var Group $group */
             $group = Group::find($groupId);
