@@ -263,7 +263,7 @@ class Userbot {
             $hasAccess = false;
             foreach ($channel->groups as $group) {
                 /** @var \JamylBot\Group $group */
-                if ( $group->isMemberBySlack($user) ) {
+                if ( $group->isMemberBySlack($user) && !User::userIsDisabled($user) ) {
                     $hasAccess = true;
                 }
             }
@@ -275,7 +275,7 @@ class Userbot {
             foreach ($group->users as $jamylUser) {
                 if ($jamylUser->slack_id == 'USLACKBOT') {
                     \Log::error('USLACKBOT error: '.$jamylUser->char_name.' | '.$jamylUser->email);
-                } elseif (!in_array($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id)) {
+                } elseif (!in_array($jamylUser->slack_id, $channelIds) && $group->isMemberBySlack($jamylUser->slack_id) && !User::userIsDisabled($jamylUser->slack_id) ) {
                     $channel->is_group ? $this->slackMonkey->addToGroup($jamylUser->slack_id, $channel->slack_id) : $this->slackMonkey->addToChannel($jamylUser->slack_id, $channel->slack_id);
                 }
             }
