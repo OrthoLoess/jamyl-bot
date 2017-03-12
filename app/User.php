@@ -251,4 +251,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $user;
     }
 
+    /**
+     * @param string $slackId
+     *
+     * @return Bool
+     */
+    public static function userIsDisabled($slackId)
+    {
+        return User::where('slack_id', $slackId)->firstOrFail()->inactive;
+    }
+
 }
