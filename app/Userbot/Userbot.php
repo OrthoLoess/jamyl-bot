@@ -263,11 +263,11 @@ class Userbot {
             $hasAccess = false;
             foreach ($channel->groups as $group) {
                 /** @var \JamylBot\Group $group */
-                if ( $group->isMemberBySlack($user) && !User::userIsDisabled($user) ) {
+                if ( $group->isMemberBySlack($user) ) {
                     $hasAccess = true;
                 }
             }
-            if (!$hasAccess && $user != config('slack.jamyl-id')) {
+            if (!$hasAccess && $user != config('slack.jamyl-id') && !User::userIsDisabled($user)) {
                 $channel->is_group ? $this->slackMonkey->kickFromGroup($user, $channel->slack_id) : $this->slackMonkey->kickFromChannel($user, $channel->slack_id);
             }
         }
