@@ -97,11 +97,11 @@
                                     @if (count($corps) == 0)
                                         {!! Form::open(['url' => 'admin/groups/'.$id.'/remove-user', 'class' => 'user-action-form']) !!}
                                         {!! Form::button('<i class="glyphicon glyphicon-remove" style="vertical-align: baseline"></i>', array('type' => 'submit', 'class' => 'btn btn-danger btn-xs')) !!}
-                                        {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
+                                        {{ $user->char_name }}
                                         {!! Form::hidden('user', $user->id) !!}
                                         {!! Form::close() !!}
                                     @else
-                                        {{ $user->char_name }} @if($user->email) <{{ $user->email }}> @endif
+                                        {{ $user->char_name }}
                                     @endif
                                 </div>
                             @empty
