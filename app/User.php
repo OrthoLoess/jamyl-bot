@@ -79,19 +79,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         if (in_array($this->alliance_id, config('standings.holders.alliances'))) {
             $this->status = 'holder';
-            return true;
         }
         if (in_array($this->alliance_id, config('standings.blues.alliances')) || in_array($this->corp_id, config('standings.blues.corporations'))) {
             $this->status = 'blue';
-            return true;
         }
         if (in_array($this->alliance_id, config('standings.light-blues.alliances')) || in_array($this->corp_id, config('standings.light-blues.corporations'))) {
             $this->status = 'light-blue';
-            return true;
         }
         if (in_array($this->alliance_id, config('standings.reds.alliances')) || in_array($this->corp_id, config('standings.reds.corporations'))) {
             $this->status = 'red';
-            return true;
         }
         $this->status = 'neutral';
         return true;
