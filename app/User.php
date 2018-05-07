@@ -59,16 +59,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function updateAffiliation($charInfo)
     {
-        if ($this->corp_id != $charInfo['corporationID']) {
-            $this->corp_id = $charInfo['corporationID'];
-            $this->corp_name = $charInfo['corporationName'];
+        if ($this->corp_id != $charInfo['corporation_id']) {
+            $this->corp_id = $charInfo['corporation_id'];
+            $this->corp_name = $charInfo['corporation_name'];
         }
-        if ($this->alliance_id != $charInfo['allianceID']) {
-            $this->alliance_id = $charInfo['allianceID'];
-            $this->alliance_name = $charInfo['allianceName'];
+        if ($this->alliance_id != $charInfo['alliance_id']) {
+            $this->alliance_id = $charInfo['alliance_id'];
+            $this->alliance_name = $charInfo['alliance_name'];
         }
         $this->updateStatus();
-        $this->next_check = $charInfo['cachedUntil'];
+        $this->next_check = null;
         $this->save();
     }
 
@@ -102,7 +102,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function needsUpdate()
     {
-        return $this->next_check === null || $this->next_check->lte(Carbon::now());
+        return true;
+        //return $this->next_check === null || $this->next_check->lte(Carbon::now());
     }
 
     /**
