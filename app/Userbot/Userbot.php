@@ -45,6 +45,24 @@ class Userbot {
      */
     public function performUpdates()
     {
+        $users = User::all();
+        $charIds = [];
+
+        foreach ($users as $user) {
+            $charIds[] = $user->char_id;
+            if (count($charIds) >= config('eve.batch-size')) {
+                $result = $this->apiMonkey->sendAffiliations($charIds);
+                $charIds = [];
+                $this->updateAffiliations($result);
+            }
+        }
+        if (count($charIds) > 0) {
+            $result = $this->apiMonkey->sendAffiliations($charIds);
+            $charIds = [];
+            $this->updateAffiliations($result);
+            
+        }
+        /*
         do {
             $charIds = User::listNeedUpdateIds(50);
             foreach ($charIds as $char) {
@@ -52,6 +70,7 @@ class Userbot {
             }
             $this->apiMonkey->fireQueue(true);
         } while (count($charIds));
+        */
     }
 
     /**
@@ -59,18 +78,18 @@ class Userbot {
      */
     public function updateSingle($charId)
     {
-        $this->apiMonkey->sendSingleAffiliation($charId);
+        $result = $this->apiMonkey->sendAffiliations([$charId]);
+        $this->updateAffiliations($result);
     }
 
     /**
      * @param $phealResults
      */
-    public function updateAffiliations($phealResults)
+    public function updateAffiliations($resultArray)
     {
-        foreach ($phealResults->characters->toArray() as $phealResult) {
-            $phealResult['cachedUntil'] = $phealResults->cached_until;
-            $user = User::findByChar($phealResult['characterID']);
-            $user->updateAffiliation($phealResult);
+        foreach ($resultArray as $charArray) {
+            $user = User::findByChar($charArray['character_id']);
+            $user->updateAffiliation($charArray);
         }
     }
 
