@@ -195,7 +195,7 @@ class ApiMonkey {
     {
         $result = $this->guzzle->post(config('eve.names-route'), ['json' => $ids]);
         $resultArray = json_decode($result->getBody(), true);
-        echo 'Getting names for id block: '.$result->getStatusCode()."\n";
+        //echo 'Getting names for id block: '.$result->getStatusCode()."\n";
         foreach ($resultArray as $nameRow) {
             Cache::forever('esi-name-'.$nameRow['id'], $nameRow['name']);
         }
