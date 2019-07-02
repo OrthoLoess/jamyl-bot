@@ -8,6 +8,7 @@
 
 namespace JamylBot\Pingbot;
 
+use JamylBot\Pinger;
 use JamylBot\Userbot\SlackMonkey;
 
 /**
@@ -91,11 +92,31 @@ class Pingbot {
         if ($this->authenticateSource($requestVars))
         {
             $messageArray = $this->parsePingType($requestVars['text']);
+            $userId = $requestVars['user_id'];
             if ($messageArray['ping-type'] == 'help')
             {
                 return $this->makeHelpText();
             }
-            $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name']);
+            if($messageArray['ping-type'] == 'register') {
+
+                Pinger::destroy($userId);
+                $pinger = new Pinger;
+
+                $pinger->display_name = $messageArray['message'];
+                $pinger->slack_id = $userId;
+
+                $pinger->save();
+                return "done";
+            }
+
+            $displayName = Pinger::getDisplayName($userId);
+
+            if($displayName) {
+                $this->ping($messageArray['ping-type'], $messageArray['message'], $displayName);
+            }else {
+                $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name']);
+            }
+
         }
         return $this->returnMessage;
     }
