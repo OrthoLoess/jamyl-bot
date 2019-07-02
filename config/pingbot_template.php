@@ -55,6 +55,7 @@ return [
         ."Usage: /ping <type> [message]\n"
         ."Available types:\n"
         ."all - Sends ping to chatadel, goes to all registered users.\n"
+        ."register - sets how your name will appear (/ping register Ortho Less) for example\n"
         ."fc - Sends ping to p_fc_pings.",
 
 ];
