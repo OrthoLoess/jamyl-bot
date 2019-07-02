@@ -44,7 +44,7 @@
                         <p>You do not appear to have the correct standings on this character.</p>
                         <p>Corp: {{ $corp or 'API error. Try again in 5 minutes.'}}, Alliance: {{ $alliance or 'none' }}</p>
                         <p>If you have recently switched corps, then come back in an hour to see if the API has updated.</p>
-                        <p>If you think this corp/alliance should have access, contact Zenith Bane regarding the access list.</p>
+                        <p>If you think this corp/alliance should have access, contact the CVA-diplo channel.</p>
                     @endif
 				</div>
 			</div>
