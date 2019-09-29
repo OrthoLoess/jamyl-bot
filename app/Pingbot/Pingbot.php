@@ -60,13 +60,13 @@ class Pingbot {
      *
      * @return bool
      */
-    public function ping($type, $message, $sender)
+    public function ping($type, $message, $sender, $ping = true)
     {
         if (!$this->isValidPingType($type))
         {
             return false;
         }
-        $payload = $this->makePayload($type, $message, $sender);
+        $payload = $this->makePayload($type, $message, $sender, $ping);
         if ($this->slack->sendMessageToServer($payload))
         {
             $this->returnMessage = 'Ping sent';
@@ -97,7 +97,7 @@ class Pingbot {
             {
                 return $this->makeHelpText();
             }
-            if($messageArray['ping-type'] == 'register') {
+            if ($messageArray['ping-type'] == 'register') {
 
                 Pinger::destroy($userId);
                 $pinger = new Pinger;
@@ -111,7 +111,13 @@ class Pingbot {
 
             $displayName = Pinger::getDisplayName($userId);
 
-            if($displayName) {
+            if ($requestVars['command'] == '/ping') {
+                $ping = true;
+            } else {
+                $ping = false;
+            }
+
+            if ($displayName) {
                 $this->ping($messageArray['ping-type'], $messageArray['message'], $displayName);
             }else {
                 $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name']);
@@ -144,16 +150,20 @@ class Pingbot {
      *
      * @return array
      */
-    protected function makePayload($type, $message, $sender)
+    protected function makePayload($type, $message, $sender, $ping)
     {
         $pingSettings = config('pingbot.ping-bots.'.$type);
-        return [
+        $array = [
             'username'      => config('pingbot.ping-bot-name'),
             'icon_emoji'    => config('pingbot.ping-bot-emoji'),
             'channel'       => $pingSettings['destination'],
-            'text'          => 'Ping from '.$sender.' to <!channel>:'."\n>>>".trim($message),
-            //'attachments'   => $this->makeAttachment($message, $pingSettings),
         ];
+        if ($ping){
+            $array['text'] = 'Ping from '.$sender.' to <!channel>:'."\n>>>".trim($message);
+        } else {
+            $array['text'] = 'Message from '.$sender.':'."\n>>>".trim($message);
+        }
+        return $array;
     }
 
     /**
@@ -216,7 +226,7 @@ class Pingbot {
             return false;
         }
 
-        if ($requestVars['token'] != config('pingbot.command-hash'))
+        if (($requestVars['token'] != config('pingbot.command-hash'))&&($requestVars['token'] != config('pingbot.message-command-hash'))
         {
             $this->returnMessage = 'Invalid token, are you trying to access from outside of Slack?';
             return false;
