@@ -118,9 +118,9 @@ class Pingbot {
             }
 
             if ($displayName) {
-                $this->ping($messageArray['ping-type'], $messageArray['message'], $displayName);
+                $this->ping($messageArray['ping-type'], $messageArray['message'], $displayName, $ping);
             }else {
-                $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name']);
+                $this->ping($messageArray['ping-type'], $messageArray['message'], $requestVars['user_name'], $ping);
             }
 
         }
