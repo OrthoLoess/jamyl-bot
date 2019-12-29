@@ -73,3 +73,5 @@ Route::group(['domain' => env('SLACK_DOMAIN', 'localhost')], function() {
 });
 
 Route::get('/', 'WelcomeController@portal');
+
+Route::get('jb', 'JbMapController@view');
