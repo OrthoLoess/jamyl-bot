@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Cache;
 
-class WelcomeController extends Controller {
+class JbMapController extends Controller {
 
     /*
     |--------------------------------------------------------------------------
