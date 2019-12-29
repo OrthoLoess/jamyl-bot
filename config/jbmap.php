@@ -12,5 +12,5 @@ return [
     */
 
     'url'   => env('JBMAP'),
-    ],
+    
 ];
