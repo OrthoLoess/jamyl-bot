@@ -20,7 +20,7 @@ class JbMapController extends Controller {
      *
      * @return Response
      */
-    public function index()
+    public function view()
     {
         $url = Cache::rememberForever('jbmap_url', function () {
             return \config('jbmap.url');
