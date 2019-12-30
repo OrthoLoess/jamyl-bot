@@ -25,7 +25,10 @@ class JbMapController extends Controller {
         $url = Cache::rememberForever('jbmap_url', function () {
             return \config('jbmap.url');
         });
-        return view('jbmap');
+        $desc = Cache::rememberForever('jbmap_desc', function () {
+            return \config('jbmap.description');
+        });
+        return view('jbmap', ['jburl' => $url, 'description' => $desc ]);
     }
 
 }
